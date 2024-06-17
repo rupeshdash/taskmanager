@@ -1,14 +1,7 @@
-import { useState } from 'react'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import "./App.css"
+const App = () => {
   return (
-    <>
-      what the hell
-      {count}
-    </>
+    <div className="text-3xl font-bold text-center text-gray-900">hello world</div>
   )
 }
 
