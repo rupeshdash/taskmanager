@@ -13,6 +13,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --primary-purple: #5051f9;
+  --hover-purple: #b5b6f9;
+  --wrapper-bg-grey: #f0f0f0;
+  --bg-white: #ffffff;
+  --admin-indicator-bg: #41D37E;
+
 }
 
 body {
@@ -21,11 +27,9 @@ body {
   min-height: 100vh;
 }
 
-
 @media (prefers-color-scheme: light) {
   /* :root {
     color: #213547;
     background-color: #ffffff;
   } */
- 
 }
