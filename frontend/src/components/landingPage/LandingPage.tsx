@@ -1,7 +1,10 @@
+import { HeroPage } from "./HeroPage"
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <div>
+      <HeroPage/>
+    </div>
   )
 }
 

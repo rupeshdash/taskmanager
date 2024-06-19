@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -21,11 +22,11 @@
 
 }
 
-body {
+/* body {
   margin: 0;
   min-width: 100vh;
   min-height: 100vh;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   /* :root {
