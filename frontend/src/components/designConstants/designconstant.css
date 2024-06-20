@@ -75,7 +75,7 @@ nav a:hover {
 }
 .page-wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
 .section-header {
   font-size: 32px;
@@ -132,4 +132,14 @@ nav a:hover {
     text-align: center;
     display: flex;
     align-items: center;
+}
+.task-wrapper {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 1.5rem; 
+  padding: 1rem 1.2rem 1rem .6rem;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(350px, 1fr)
+  )
 }
