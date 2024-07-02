@@ -27,7 +27,7 @@ const Navigation = () => {
     SET_NAVIGATION(updatedNavigation);
   }, [currentNavLink]);
   return (
-    <nav>
+    <nav className=" z-20">
       <div>Logo</div>
       <div className="nav-container">
         {NAVIGATION.map((nav) => {
