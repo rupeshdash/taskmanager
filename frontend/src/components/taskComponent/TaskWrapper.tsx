@@ -1,6 +1,6 @@
 import Header from "../designConstants/Header";
 import Navigation from "../designConstants/Navigation";
-import { Task } from "./Task";
+import Backlog from "./TaskType/Backlog";
 
 const TaskWrapper = () => {
   return (
@@ -9,26 +9,13 @@ const TaskWrapper = () => {
       <div className="inner-wrapper">
         {" "}
         <Header />
-        <section className="team-section mx-3 md:mx-5">
-          <header className="section-header my-7">Tasks</header>
+        <section className="team-section">
+          <header className="section-header my-7 px-5">Tasks</header>
           <div className="task-wrapper">
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
-            <Task/>
+            <Backlog/>
+            <Backlog/>
+            <Backlog/>
+            <Backlog/>
           </div>
         </section>
       </div>

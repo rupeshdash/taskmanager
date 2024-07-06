@@ -12,19 +12,19 @@ const Priority = () => {
   const [priority, setPriority] = useState<string | null>(null);
 
   return (
-    <div className="z-20">
+    <div>
       <Select
         onValueChange={(value) => setPriority(value)}
       >
         <SelectTrigger
-          className={`w-[100px] ${
+          className={`w-[150px] ${
             priority === 'high'
               ? 'bg-red-500 text-white'
               : priority === 'medium'
               ? 'bg-orange-500 text-white'
               : priority === 'low'
               ? 'bg-green-500 text-white'
-              : 'bg-gray-200'
+              : ''
           }`}
         >
           <SelectValue placeholder="Priority" />
