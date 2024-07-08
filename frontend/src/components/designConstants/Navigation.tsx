@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  Link,
   useLocation,
   useNavigate,
-  useNavigation,
 } from "react-router-dom";
-import {
-  chatsIcon,
-  settingIcon,
-  taskIcon,
-  teamNavIcon,
-} from "../../assets/Images";
+
 import { NAVIGATION_OBJ } from "./navigationConstant";
 
 const Navigation = () => {
@@ -27,8 +20,8 @@ const Navigation = () => {
     SET_NAVIGATION(updatedNavigation);
   }, [currentNavLink]);
   return (
-    <nav>
-      <div>Logo</div>
+    <nav className="z-20">
+      <div onClick={()=>navigate('/')}>Logo</div>
       <div className="nav-container">
         {NAVIGATION.map((nav) => {
           return (

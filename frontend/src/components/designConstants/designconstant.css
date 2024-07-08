@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   width: calc(100% - 5rem);
-  z-index: 1000;
+  z-index: 20;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 3rem;
@@ -75,7 +75,7 @@ nav a:hover {
 }
 .page-wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh; 
 }
 .section-header {
   font-size: 32px;
@@ -132,4 +132,15 @@ nav a:hover {
     text-align: center;
     display: flex;
     align-items: center;
+}
+
+.task-wrapper {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 1rem; 
+  padding: 1rem 1rem 1rem 1rem;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(20rem, 1fr)
+  )
 }
