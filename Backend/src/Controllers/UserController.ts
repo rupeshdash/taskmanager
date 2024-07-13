@@ -30,17 +30,12 @@ export const login = async (req:any, res:any) => {
       });
     }
     if (existingUser) {
+    const loggedinUser = await User.findOne({_id: existingUser._id}).select('-password')
       const token = jwt.sign({ email }, jwt_secret, (err: any, token: any) => {
         if (err) throw err;
         return res.json({
           token: token,
-          user: {
-            email: existingUser.email,
-            name: existingUser.name,
-            teamsMember: existingUser.teamsMember,
-            teamsAdmin: existingUser.teamsAdmin,
-            tasks: existingUser.tasks,
-          },
+          user: loggedinUser,
         });
       });
     }
@@ -79,12 +74,12 @@ export const signup = async (req:any, res:any) => {
       name,
       password: hashedPassword,
     });
-
+    const createdUser = await User.findOne({_id : user._id}).select('-password')
     const token = jwt.sign({ email }, jwt_secret);
 
     return res.status(200).json({
       message: "Signup Successfully",
-      user: user,
+      user: createdUser,
       token: token,
     });
   } catch (error) {

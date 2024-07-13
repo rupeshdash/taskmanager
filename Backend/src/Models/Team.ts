@@ -2,33 +2,36 @@ import { Schema, Document, model, Types } from "mongoose";
 import { TaskType } from "./Task";
 import { UserType } from "./User";
 export interface TeamType extends Document {
-  id: string;
   admin: Types.ObjectId | UserType;
   members: Types.ObjectId[] | UserType[];
+  title: string,
   createdAt: string;
   description: string;
   allTasks: Types.ObjectId[] | TaskType[];
 }
 const teamSchema = new Schema<TeamType>({
-  id: {
-    type: String,
-  },
+  
   admin: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  members: [{
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }],
+
+  members: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  title: {
+    type: String,
+  },
   createdAt: {
     type: String,
-    required: true,
   },
-  description: 
-    {
-      type: String,
-    },
+  description: {
+    type: String,
+  },
   allTasks: [
     {
       type: Schema.Types.ObjectId,
