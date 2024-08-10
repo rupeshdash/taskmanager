@@ -5,13 +5,14 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 const jwt_secret = process.env.JWT_SECRET || "";
 
-export const login = async (req:any, res:any) => {
+export const login = async (req: any, res: any) => {
   const { email, password } = req.body;
   try {
     const result = LoginSchema.safeParse({ email, password });
     if (!result.success) {
       return res.json({
-        message: "Invalid inputs",
+        errors : [{message: "Invalid inputs"}]
+        
       });
     }
     const existingUser = await User.findOne({
@@ -19,24 +20,24 @@ export const login = async (req:any, res:any) => {
     });
     if (!existingUser) {
       return res.json({
-        message: "invalid credentials",
+        errors: [{ message: "Invalid inputs" }],
       });
     }
     const match = await bcrypt.compare(password, existingUser.password);
 
     if (!match) {
       return res.json({
-        message: "invalid credentials",
+        errors: [{ message: "Invalid inputs" }],
       });
     }
-    if (existingUser) {
-    const loggedinUser = await User.findOne({_id: existingUser._id}).select('-password')
-      const token = jwt.sign({ email }, jwt_secret, (err: any, token: any) => {
-        if (err) throw err;
-        return res.json({
-          token: token,
-          user: loggedinUser,
-        });
+    const loggedinUser = await User.findOne({ _id: existingUser._id }).select(
+      "-password"
+    );
+    const token = jwt.sign({ email }, jwt_secret);
+    if (token) {
+      return res.json({
+        token: token,
+        user: loggedinUser,
       });
     }
   } catch (err) {
@@ -46,7 +47,7 @@ export const login = async (req:any, res:any) => {
   }
 };
 
-export const signup = async (req:any, res:any) => {
+export const signup = async (req: any, res: any) => {
   const { email, password, name } = req.body;
 
   const result = SignupSchema.safeParse({ email, password, name });
@@ -74,7 +75,9 @@ export const signup = async (req:any, res:any) => {
       name,
       password: hashedPassword,
     });
-    const createdUser = await User.findOne({_id : user._id}).select('-password')
+    const createdUser = await User.findOne({ _id: user._id }).select(
+      "-password"
+    );
     const token = jwt.sign({ email }, jwt_secret);
 
     return res.status(200).json({
