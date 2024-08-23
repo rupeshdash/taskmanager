@@ -15,6 +15,7 @@
   width: 11rem;
   justify-content: space-around;
   height: 103%;
+  margin-right: 1rem;
 }
 .nav-icon-container {
   width: max-content;
@@ -106,6 +107,9 @@ nav a:hover {
   text-align: center;
   border-radius: 8px;
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .team:hover {

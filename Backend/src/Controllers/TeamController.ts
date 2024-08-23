@@ -59,12 +59,23 @@ export const getAllTeams = async (req: any, res: any) => {
     const adminUser = await User.findOne({ email: adminEmail }).select(
       "-password"
     );
-    const allTeams = await Team.find({ admin: adminUser?._id })
-      .populate("admin", "-password")
-      .populate("members", "-password")
+   const adminTeams = await Team.find({ admin: adminUser?._id })
+     .populate("admin", "-password -teamsMember -teamsAdmin -tasks")
+     .populate("members", "-password -teamsMember -teamsAdmin -tasks")
+     .lean();
+    // Find teams where the user is a member
+    const memberTeams = await Team.find({ members: adminUser?._id })
+      .populate("admin", "-password -teamsMember -teamsAdmin -tasks")
+      .populate("members", "-password -teamsMember -teamsAdmin -tasks")
       .lean();
+    // Combine the results and remove duplicates
+    const allTeams = [...adminTeams, ...memberTeams];
+    const uniqueTeams = allTeams.filter(
+      (team, index, self) =>
+        index === self.findIndex((t) => t._id.toString() === team._id.toString())
+    );
 
-    return res.status(200).json({ teams: allTeams });
+    return res.status(200).json({ teams: uniqueTeams });
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",

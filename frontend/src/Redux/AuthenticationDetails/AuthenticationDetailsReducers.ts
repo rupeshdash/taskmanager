@@ -1,4 +1,4 @@
-import { LOGIN_DETAILS_FAILURE, LOGIN_DETAILS_REQUEST, LOGIN_DETAILS_SUCCESS, SIGNUP_DETAILS_FAILURE, SIGNUP_DETAILS_REQUEST, SIGNUP_DETAILS_SUCCESS } from "./AuthenticationDetailsTypes";
+import { LOGIN_DETAILS_FAILURE, LOGIN_DETAILS_REQUEST, LOGIN_DETAILS_SUCCESS, LOGOUT_SUCCESS, SIGNUP_DETAILS_FAILURE, SIGNUP_DETAILS_REQUEST, SIGNUP_DETAILS_SUCCESS } from "./AuthenticationDetailsTypes";
 
 const initialState = {
   authLoading: false,
@@ -62,6 +62,13 @@ export const authReducer = (state = initialState, action: any) => {
         ...state,
         authLoading: false,
         errorResponse: action.payload.errors,
+        isAuthenticated: false,
+      };
+    case LOGOUT_SUCCESS: 
+      return {
+        ...state,
+        authLoginResponse: "",
+        authToken: "",
         isAuthenticated: false,
       };
     default:
