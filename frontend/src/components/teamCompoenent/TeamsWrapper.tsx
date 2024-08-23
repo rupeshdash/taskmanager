@@ -1,3 +1,4 @@
+import { addImage } from "@/assets/Images";
 import Header from "../designConstants/Header";
 import Navigation from "../designConstants/Navigation";
 import TeamComponent from "./TeamComponent";
@@ -14,7 +15,7 @@ const TeamsWrapper = () => {
           <div className="team-wrapper">
             <TeamComponent />
             <TeamComponent />
-            <div className="team-add"></div>
+            <div className="team-add">{addImage()}</div>
           </div>
         </section>
       </div>

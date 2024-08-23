@@ -1,4 +1,5 @@
 import { downArrow, Images, notificationBell } from "../../assets/Images";
+import ActionMenu from "../authentication/ActionMenu";
 import "./designconstant.css";
 const Header = () => {
   return (
@@ -8,7 +9,11 @@ const Header = () => {
         <div>
           <img src={Images.sampleProfImg} />
         </div>
-        {downArrow()}
+        {/* <span onClick={()=>{
+          console.log("something");
+          
+        }}>{downArrow()}</span> */}
+        <ActionMenu/>
       </div>
     </header>
   );

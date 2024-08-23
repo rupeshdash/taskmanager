@@ -3,6 +3,7 @@ import {
   LOGIN_DETAILS_FAILURE,
   LOGIN_DETAILS_REQUEST,
   LOGIN_DETAILS_SUCCESS,
+  LOGOUT_SUCCESS,
   SIGNUP_DETAILS_FAILURE,
   SIGNUP_DETAILS_REQUEST,
   SIGNUP_DETAILS_SUCCESS,
@@ -45,7 +46,6 @@ const loginUserFailure = (apiError: any) => {
   };
 };
 
-
 export const signupUser = (requestBody: any, requestHeader: any) => {
   return (dispatch: any) => {
     dispatch(signupUserRequest());
@@ -82,5 +82,20 @@ const signupUserFailure = (apiError: any) => {
   return {
     type: SIGNUP_DETAILS_FAILURE,
     payload: apiError,
+  };
+};
+
+export const logoutUserRequest = () => {
+  localStorage.removeItem("token");
+  return (dispatch: any) => {
+    if (!localStorage.getItem("token")) {
+      dispatch(logoutuserSuccess());
+    }
+  };
+};
+
+const logoutuserSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS,
   };
 };

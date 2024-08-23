@@ -173,7 +173,23 @@ export function crossIcon() {
     </svg>
   );
 }
-
+export function addImage(){
+  return (
+    <svg
+      width="20"
+      height="19"
+      viewBox="0 0 20 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.603125 11.16V7.6H8.16313V0.519999H11.8431V7.6H19.4031V11.16H11.8431V18.28H8.16313V11.16H0.603125Z"
+        fill="#232360"
+      />
+    </svg>
+  );
+}
 export const Images = {
   sampleProfImg,
 };
+
