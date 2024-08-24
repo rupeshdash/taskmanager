@@ -19,6 +19,7 @@ export const loginUser = (requestBody: any, requestHeader: any) => {
           dispatch(loginUserFailure(resp.data));
         } else {
           localStorage.setItem("token", resp?.data?.token);
+           localStorage.setItem("userEmail", resp?.data?.user?.email);
           dispatch(loginUserSuccess(resp.data));
         }
       })
@@ -56,6 +57,7 @@ export const signupUser = (requestBody: any, requestHeader: any) => {
           dispatch(signupUserFailure(resp.data));
         } else {
           localStorage.setItem("token", resp?.data?.token);
+          localStorage.setItem("userEmail", resp?.data?.user?.email);
           dispatch(signupUserSuccess(resp.data));
         }
       })
@@ -87,6 +89,7 @@ const signupUserFailure = (apiError: any) => {
 
 export const logoutUserRequest = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("userEmail");
   return (dispatch: any) => {
     if (!localStorage.getItem("token")) {
       dispatch(logoutuserSuccess());
