@@ -33,9 +33,10 @@ import {
 import { downArrow } from "@/assets/Images";
 import { useDispatch } from "react-redux";
 import { logoutUserRequest } from "@/Redux";
+import { AppDispatch, useAppDispatch } from "@/Redux/store";
 
 const ActionMenu = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{downArrow()}</DropdownMenuTrigger>

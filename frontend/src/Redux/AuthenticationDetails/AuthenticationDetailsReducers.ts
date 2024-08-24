@@ -6,7 +6,7 @@ const initialState = {
   authLoginResponse: "",
   authToken: "",
   userName: "",
-  userEmail: "",
+  userEmail: localStorage.getItem("userEmail") || "",
   membersIn: "",
   adminIn: "",
   errorRespone: "",
