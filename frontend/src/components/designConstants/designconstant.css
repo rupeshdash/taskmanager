@@ -15,6 +15,7 @@
   width: 11rem;
   justify-content: space-around;
   height: 103%;
+  margin-right: 1rem;
 }
 .nav-icon-container {
   width: max-content;
@@ -72,6 +73,7 @@ nav a:hover {
   padding-top: 4rem;
   padding-left: 5rem;
   background-color: var(--wrapper-bg-grey);
+  
 }
 .page-wrapper {
   display: flex;
@@ -106,6 +108,9 @@ nav a:hover {
   text-align: center;
   border-radius: 8px;
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .team:hover {
@@ -143,4 +148,29 @@ nav a:hover {
     auto-fill,
     minmax(20rem, 1fr)
   )
+}
+/* HTML: <div class="loader"></div> */
+.loader {    
+  --r1: 154%;
+  --r2: 68.5%;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%; 
+  background:
+    radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,var(--primary-purple) 80%),
+    radial-gradient(var(--r1) var(--r2) at bottom,var(--primary-purple) 79.5%,#0000 80%),
+    radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,var(--primary-purple) 80%),
+    #ccc;
+  background-size: 50.5% 220%;
+  background-position: -100% 0%,0% 0%,100% 0%;
+  background-repeat:no-repeat;
+  animation: l9 2s infinite linear;
+  position: absolute;
+    top: 50%;
+    left: 50%;
+}
+@keyframes l9 {
+    33%  {background-position:    0% 33% ,100% 33% ,200% 33% }
+    66%  {background-position: -100%  66%,0%   66% ,100% 66% }
+    100% {background-position:    0% 100%,100% 100%,200% 100%}
 }
