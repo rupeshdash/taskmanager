@@ -12,11 +12,10 @@ export const createTeam = async (req: any, res: any) => {
     }
 
     const memberUserList = await User.find({
-      email: members.map((member: any) => {
-        return member;
+      _id: members.map((member: any) => {
+        return member._id;
       }),
     }).select("-password");
-    
 
     const existingTeam = await Team.findOne({ _id: _id });
     if (existingTeam) {
@@ -59,10 +58,10 @@ export const getAllTeams = async (req: any, res: any) => {
     const adminUser = await User.findOne({ email: adminEmail }).select(
       "-password"
     );
-   const adminTeams = await Team.find({ admin: adminUser?._id })
-     .populate("admin", "-password -teamsMember -teamsAdmin -tasks")
-     .populate("members", "-password -teamsMember -teamsAdmin -tasks")
-     .lean();
+    const adminTeams = await Team.find({ admin: adminUser?._id })
+      .populate("admin", "-password -teamsMember -teamsAdmin -tasks")
+      .populate("members", "-password -teamsMember -teamsAdmin -tasks")
+      .lean();
     // Find teams where the user is a member
     const memberTeams = await Team.find({ members: adminUser?._id })
       .populate("admin", "-password -teamsMember -teamsAdmin -tasks")
@@ -72,10 +71,25 @@ export const getAllTeams = async (req: any, res: any) => {
     const allTeams = [...adminTeams, ...memberTeams];
     const uniqueTeams = allTeams.filter(
       (team, index, self) =>
-        index === self.findIndex((t) => t._id.toString() === team._id.toString())
+        index ===
+        self.findIndex((t) => t._id.toString() === team._id.toString())
     );
 
     return res.status(200).json({ teams: uniqueTeams });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getAllUsers = async (req: any, res: any) => {
+  try {
+    const { organization } = req.body;
+    const orgUsers = await User.find({ organization: organization }).select(
+      "-password -teamsMember -teamsAdmin -tasks"
+    );
+    return res.status(200).json({ orgUsers: orgUsers });
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",

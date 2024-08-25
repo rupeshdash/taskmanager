@@ -5,6 +5,7 @@ import { TaskType } from "./Task";
 export interface UserType extends Document {
   avatar?: string;
   name: string;
+  organization: string;
   email: string;
   password: string;
   teamsMember: Types.ObjectId[] | TeamType[];
@@ -20,6 +21,10 @@ const userSchema = new Schema<UserType>({
     type: String,
     required: true,
   },
+  organization: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -29,18 +34,24 @@ const userSchema = new Schema<UserType>({
     type: String,
     required: true,
   },
-  teamsMember: [{
+  teamsMember: [
+    {
       type: Schema.Types.ObjectId,
       ref: "Team",
-    }],
-  teamsAdmin: [{
+    },
+  ],
+  teamsAdmin: [
+    {
       type: Schema.Types.ObjectId,
       ref: "Team",
-    }],
-  tasks: [{
+    },
+  ],
+  tasks: [
+    {
       type: Schema.Types.ObjectId,
       ref: "Task",
-    }],
+    },
+  ],
 });
 
 const User = model<UserType>("User", userSchema);

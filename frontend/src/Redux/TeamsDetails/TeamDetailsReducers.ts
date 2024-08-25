@@ -5,6 +5,9 @@ import {
   GET_ALL_TEAMS_FAILURE,
   GET_ALL_TEAMS_REQUEST,
   GET_ALL_TEAMS_SUCCESS,
+  GET_ALL_USERS_FAILURE,
+  GET_ALL_USERS_REQUEST,
+  GET_ALL_USERS_SUCCESS,
 } from "./TeamsDetailsTypes";
 
 const initialState = {
@@ -17,6 +20,10 @@ const initialState = {
   allTeams: [],
   teamAdmin: "",
   teamMembers: "",
+  getAllUsersLoading: false,
+  getAllUsersResponse: "",
+  getAllUsersErrorResponse: "",
+  allUsers: [],
 };
 
 export const teamReducer = (state = initialState, action: any) => {
@@ -58,6 +65,26 @@ export const teamReducer = (state = initialState, action: any) => {
         getAllTeamsLoading: false,
         getAllTeamsErrorResponse: action.payload,
         allTeams: action.payload.teams,
+      };
+    case GET_ALL_USERS_REQUEST:
+      return {
+        ...state,
+        getAllUsersLoading: true,
+        getAllUsersResponse: "",
+        getAllUsersErrorResponse: "",
+      };
+    case GET_ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        getAllUsersLoading: false,
+        getAllUsersResponse: action.payload,
+        allUsers: action.payload.orgUsers,
+      };
+    case GET_ALL_USERS_FAILURE:
+      return {
+        ...state,
+        getAllUsersLoading: false,
+        getAllUsersErrorResponse: action.payload,
       };
     default:
       return state;

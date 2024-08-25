@@ -7,6 +7,9 @@ import {
   GET_ALL_TEAMS_FAILURE,
   GET_ALL_TEAMS_REQUEST,
   GET_ALL_TEAMS_SUCCESS,
+  GET_ALL_USERS_FAILURE,
+  GET_ALL_USERS_REQUEST,
+  GET_ALL_USERS_SUCCESS,
 } from "./TeamsDetailsTypes";
 
 export const createTeam = (
@@ -93,5 +96,41 @@ const getAllTeamsSuccess = (data: any) => ({
 
 const getAllTeamsFailure = (error: any) => ({
   type: GET_ALL_TEAMS_FAILURE,
+  payload: error,
+});
+
+export const fetchAllUsers = (requestBody: any, requestHeader: any) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(getAllUsersRequest());
+    axios
+      .post(
+        "http://localhost:8080/api/v1/team/getallusers",
+        requestBody,
+        requestHeader
+      )
+      .then((resp) => {
+        if (resp.data.errors) {
+          dispatch(getAllUsersFailure(resp.data.errors));
+        } else {
+          dispatch(getAllUsersSuccess(resp.data));
+        }
+      })
+      .catch((error) => {
+        dispatch(getAllUsersFailure(error.message));
+      });
+  };
+};
+
+export const getAllUsersRequest = () => ({
+  type: GET_ALL_USERS_REQUEST,
+});
+
+export const getAllUsersSuccess = (data : any) => ({
+  type: GET_ALL_USERS_SUCCESS,
+  payload: data,
+});
+
+export const getAllUsersFailure = (error : any) => ({
+  type: GET_ALL_USERS_FAILURE,
   payload: error,
 });
