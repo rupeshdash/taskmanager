@@ -48,9 +48,9 @@ export const login = async (req: any, res: any) => {
 };
 
 export const signup = async (req: any, res: any) => {
-  const { email, password, name } = req.body;
+  const { email, password, name , organization } = req.body;
 
-  const result = SignupSchema.safeParse({ email, password, name });
+  const result = SignupSchema.safeParse({ email, password, name , organization });
 
   if (!result.success) {
     return res.status(401).json({
@@ -74,6 +74,7 @@ export const signup = async (req: any, res: any) => {
       email,
       name,
       password: hashedPassword,
+      organization,
     });
     const createdUser = await User.findOne({ _id: user._id }).select(
       "-password"

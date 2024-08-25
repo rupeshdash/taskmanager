@@ -119,7 +119,7 @@ export function CreateTeamComponent() {
         </div>
         <SheetFooter>
           {/* <SheetClose asChild> */}
-          <Button type="submit" onClick={handleCreateTeam}>
+          <Button type="submit" onClick={handleCreateTeam} disabled={!teamDetails.title || !teamDetails?.members}>
             {teamData?.createTeamLoading ? "Creating..." : "Create"}
           </Button>
           {/* </SheetClose> */}
