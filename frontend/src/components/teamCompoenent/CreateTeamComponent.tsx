@@ -1,4 +1,4 @@
-import { addImage } from "@/assets/Images";
+import { addImage, editIcon } from "@/assets/Images";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +19,7 @@ import {
 } from "@/Redux/TeamsDetails/TeamDetailsActions";
 
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { DatePicker } from "../taskComponent/DatePicker";
 import MemberSelector from "../taskComponent/MemberSelector";
@@ -28,19 +28,36 @@ import { Textarea } from "../ui/textarea";
 import AddMembers from "./AddMembers";
 import { getTodayDate } from "./teamsHelper";
 
-export function CreateTeamComponent() {
+interface TeamProps {
+  _id: string;
+  title: string;
+  description: string;
+  admin: {
+    email: string;
+  };
+  isAdmin: boolean;
+  members: { _id: string; email: string }[];
+}
+interface PropType {
+  source: string;
+  team?: TeamProps;
+}
+export function CreateTeamComponent({ source, team }: PropType) {
   const authData = useSelector((state: any) => state.authData);
   const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
-  const [newMembers, setNewMembers] = useState([]);
+  const [newMembers, setNewMembers] = useState<
+    { _id: string; email: string }[]
+  >(team?.members || []);
   const [teamDetails, setTeamDetails] = useState({
-    admin: "",
-    members: [],
-    description: "",
-    title: "",
+    admin: team?.admin?.email || "",
+    members: team?.members || [],
+    description: team?.description || "",
+    title: team?.title || "",
     createdAt: "",
+    [team?._id ? "_id" : ""]: team?._id,
   });
-   function handleCreateTeam() {
+  function handleCreateTeam() {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
@@ -58,24 +75,47 @@ export function CreateTeamComponent() {
       title: "",
       createdAt: "",
     });
-     dispatch(createTeam(requestBody, { headers: requestHeader } ,authData?.userEmail ));
-
-   
+    dispatch(
+      createTeam(requestBody, { headers: requestHeader }, authData?.userEmail)
+    );
   }
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <button className="bg-[#E8EAFF] rounded-lg p-2 hover:bg-[#b3b8f9]">
-          <div className="team-add">{addImage()}</div>
-        </button>
-      </SheetTrigger>
+      {source === "update" && (
+        <>
+          <SheetTrigger asChild>
+            <span className="absolute -right-3 h-6 top-2 cursor-pointer">
+              {editIcon()}
+            </span>
+          </SheetTrigger>
+        </>
+      )}
+      {source === "create" && (
+        <SheetTrigger asChild>
+          <button className="bg-[#E8EAFF] rounded-lg p-2 hover:bg-[#b3b8f9] flex items-center justify-center h-60">
+            <div className="team-add">{addImage()}</div>
+          </button>
+        </SheetTrigger>
+      )}
       <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Create your team</SheetTitle>
-          <SheetDescription>
-            Create a team to kickstart collaboration and achieve your goals...
-          </SheetDescription>
-        </SheetHeader>
+        {source === "create" && (
+          <SheetHeader>
+            <SheetTitle>Create your team</SheetTitle>
+            <SheetDescription>
+              Create a team to kickstart collaboration and achieve your goals...
+            </SheetDescription>
+          </SheetHeader>
+        )}
+
+        {source === "update" && (
+          <SheetHeader>
+            <SheetTitle>Update your team details</SheetTitle>
+            <SheetDescription>
+              View and update your team details ...
+            </SheetDescription>
+          </SheetHeader>
+        )}
+
         <div className="grid gap-4 py-4 ">
           <div className="flex flex-col md:grid md:grid-cols-4 md:items-center gap-4">
             <Label htmlFor="title" className="text-left mb-2">
@@ -84,6 +124,7 @@ export function CreateTeamComponent() {
             <Input
               id="title"
               placeholder="Enter your team's title here."
+              defaultValue={teamDetails?.title}
               className="col-span-3"
               onChange={(e: any) => {
                 setTeamDetails((prev) => {
@@ -103,6 +144,7 @@ export function CreateTeamComponent() {
               id="description"
               placeholder="design the ui for the profile"
               className="col-span-3"
+              defaultValue={teamDetails?.description}
               onChange={(e: any) => {
                 setTeamDetails((prev) => {
                   return {
@@ -119,8 +161,11 @@ export function CreateTeamComponent() {
         </div>
         <SheetFooter>
           {/* <SheetClose asChild> */}
-          <Button type="submit" onClick={handleCreateTeam} disabled={!teamDetails.title || !teamDetails?.members}>
-            {teamData?.createTeamLoading ? "Creating..." : "Create"}
+          <Button
+            onClick={handleCreateTeam}
+            disabled={!teamDetails.title || !teamDetails?.members}
+          >
+            {source === "create" ? "Create" : "Update"}
           </Button>
           {/* </SheetClose> */}
         </SheetFooter>
