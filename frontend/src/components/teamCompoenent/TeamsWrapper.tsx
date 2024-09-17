@@ -33,7 +33,10 @@ const TeamsWrapper = () => {
         {" "}
         <Header />
         <section className="team-section pt-4 pl-4">
-          <header className="section-header">Teams</header>
+          <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
+            <CreateTeamComponent source="create" />
+            <span>Teams</span>{" "}
+          </header>
           {teamData?.getAllTeamsLoading ? (
             <Loader />
           ) : (
@@ -52,9 +55,6 @@ const TeamsWrapper = () => {
                     />
                   );
                 })}
-
-               
-                <CreateTeamComponent source="create"/>
               </>
             </div>
           )}

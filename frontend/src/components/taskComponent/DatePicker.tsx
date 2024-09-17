@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/ban-types */
 "use client"
 
 import * as React from "react"
@@ -19,10 +21,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
-
+interface PropType {
+  deadline: string;
+  setTaskDetails: Function;
+}
+export function DatePicker({deadline, setTaskDetails } : PropType) {
+  const [date, setDate] = React.useState<Date>();
+React.useEffect(() => {
+  if (date) {
+    setTaskDetails((prev: any) => {
+      return {
+        ...prev,
+        deadline: date,
+      };
+    });
+  }
+}, [date]);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -58,5 +72,5 @@ export function DatePicker() {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
