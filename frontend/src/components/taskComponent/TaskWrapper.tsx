@@ -37,7 +37,7 @@ const TaskWrapper = () => {
 
     dispatch(getAllTasks(requestBody, { headers: requestHeader }));
   }
-
+useEffect(() => {}, [teamData?.allTaskOfTeam]);
   function getTeamDetails(teamId: any) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
