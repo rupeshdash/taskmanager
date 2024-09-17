@@ -6,28 +6,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-
-const Priority = () => {
-  const [priority, setPriority] = useState<string | null>(null);
-
+import { useEffect, useState } from "react";
+interface PropType {
+  setTaskDetails: Function;
+  priority: string
+}
+const Priority = ({priority, setTaskDetails } : PropType) => {
+  const [updatedPriority, setUpdatedPriority] = useState<string | null>(null);
+  useEffect(()=>{
+    if(priority){
+      setTaskDetails((prev:any)=>{
+        return {
+          ...prev,
+          priority: priority,
+        }
+      })
+    }
+  },[priority])
   return (
     <div>
-      <Select
-        onValueChange={(value) => setPriority(value)}
-      >
+      <Select onValueChange={(value) => setTaskDetails((prev:any)=> {return {...prev, priority: value}})}>
         <SelectTrigger
           className={`w-[150px] ${
-            priority === 'high'
-              ? 'bg-red-500 text-white'
-              : priority === 'medium'
-              ? 'bg-orange-500 text-white'
-              : priority === 'low'
-              ? 'bg-green-500 text-white'
-              : ''
+            priority === "high"
+              ? "bg-red-500 text-white"
+              : priority === "medium"
+              ? "bg-orange-500 text-white"
+              : priority === "low"
+              ? "bg-green-500 text-white"
+              : ""
           }`}
         >
-          <SelectValue placeholder="Priority" />
+          <SelectValue placeholder={priority}/>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

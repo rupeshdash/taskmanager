@@ -25,7 +25,6 @@ const TeamsWrapper = () => {
     dispatch(getAllTeams(requestBody, { headers: requestHeader }));
   }, []);
 
-  console.log(teamData?.allTeams, "----");
 
   return (
     <div className="page-wrapper">
@@ -34,18 +33,28 @@ const TeamsWrapper = () => {
         {" "}
         <Header />
         <section className="team-section pt-4 pl-4">
-          <header className="section-header">Teams</header>
+          <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
+            <CreateTeamComponent source="create" />
+            <span>Teams</span>{" "}
+          </header>
           {teamData?.getAllTeamsLoading ? (
             <Loader />
           ) : (
             <div className="team-wrapper">
               <>
                 {teamData?.allTeams.map((team: any) => {
-                  return <TeamComponent key={team._id} team={team} />;
+                  return (
+                    <TeamComponent
+                      key={team._id}
+                      team={{
+                        ...team,
+                        isAdmin:
+                          team?.admin?.email ===
+                          localStorage.getItem("userEmail"),
+                      }}
+                    />
+                  );
                 })}
-
-               
-                <CreateTeamComponent />
               </>
             </div>
           )}

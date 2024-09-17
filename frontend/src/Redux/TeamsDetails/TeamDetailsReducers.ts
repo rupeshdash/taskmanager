@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CREATE_TEAM_FAILURE,
   CREATE_TEAM_REQUEST,
@@ -8,6 +9,9 @@ import {
   GET_ALL_USERS_FAILURE,
   GET_ALL_USERS_REQUEST,
   GET_ALL_USERS_SUCCESS,
+  GET_TEAM_DETAILS_FAILURE,
+  GET_TEAM_DETAILS_REQUEST,
+  GET_TEAM_DETAILS_SUCCESS,
 } from "./TeamsDetailsTypes";
 
 const initialState = {
@@ -24,6 +28,11 @@ const initialState = {
   getAllUsersResponse: "",
   getAllUsersErrorResponse: "",
   allUsers: [],
+  getTeamDetailsLoading: false,
+  getTeamDetailsResponse: "",
+  getTeamDetailsErrorResponse: "",
+  allTeamMembers: [],
+  allTasksOfTeam: [],
 };
 
 export const teamReducer = (state = initialState, action: any) => {
@@ -38,8 +47,8 @@ export const teamReducer = (state = initialState, action: any) => {
         ...state,
         createteamLoading: false,
         createTeamResponse: action.payload,
-        teamAdmin: action.payload.admin,
-        teamMembers: action.payload.members,
+        teamAdmin: action?.payload?.admin,
+        teamMembers: action?.payload?.members,
       };
     case CREATE_TEAM_FAILURE:
       return {
@@ -85,6 +94,27 @@ export const teamReducer = (state = initialState, action: any) => {
         ...state,
         getAllUsersLoading: false,
         getAllUsersErrorResponse: action.payload,
+      };
+    case GET_TEAM_DETAILS_REQUEST:
+      return {
+        ...state,
+        getTeamDetailsLoading: true,
+        getTeamDetailsResponse: "",
+        getTeamDetailsErrorResponse: "",
+      };
+    case GET_TEAM_DETAILS_SUCCESS:
+      return {
+        ...state,
+        getTeamDetailsLoading: false,
+        getTeamDetailsResponse: action.payload,
+        allTeamMembers: action?.payload?.teamDetails[0]?.members,
+        allTaskOfTeam: action?.payload?.teamDetails[0]?.allTasks,
+      };
+    case GET_TEAM_DETAILS_FAILURE:
+      return {
+        ...state,
+        getTeamDetailsLoading: false,
+        getTeamDetailsErrorResponse: action.payload,
       };
     default:
       return state;

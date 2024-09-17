@@ -9,6 +9,19 @@
   display: flex;
   flex-direction: row-reverse;
 }
+.btn-primary {
+  background-color: #5051f9e6;
+  color: white;
+  cursor: pointer;
+  color: white;
+  cursor: pointer;
+  padding: 10px 18px;
+  font-size: 20px;
+  border-radius: 7px;
+}
+.btn-primary:hover {
+  background-color: var(--primary-purple);
+}
 .header .action-center {
   display: flex;
   align-items: center;
@@ -73,11 +86,10 @@ nav a:hover {
   padding-top: 4rem;
   padding-left: 5rem;
   background-color: var(--wrapper-bg-grey);
-  
 }
 .page-wrapper {
   display: flex;
-  min-height: 100vh; 
+  min-height: 100vh;
 }
 .section-header {
   font-size: 32px;
@@ -88,89 +100,146 @@ nav a:hover {
   gap: 16px; /* Gap between grid items */
   grid-template-columns: repeat(
     auto-fill,
-    minmax(200px, 1fr)
+    minmax(400px, 1fr)
   ); /* Responsive columns */
   padding: 16px;
 }
+/* Team Component */
 .team {
   background-color: var(--bg-white);
   color: grey;
   padding: 20px;
   height: 15rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
-.team-add {
-  background-color: var(--bg-white);
-  color: grey;
-  padding: 20px;
-  height: 15rem;
-  text-align: center;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .team:hover {
   transform: scale(1.05); /* Slightly scale up on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
-.team-add:hover {
-  transform: scale(1.05); /* Slightly scale up on hover */
-}
-.team .team-header {
+
+.team-header {
   color: #00317d;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize; /* Capitalize the title */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 171px;
+  height: 1.2em;
+  white-space: nowrap;
+}
+
+.team-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555; /* Slightly darker text for better readability */
+  margin-bottom: 15px;
+}
+
+.team-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+.admin-indicator {
+  background-color: var(--admin-indicator-bg, #28a745); /* Fallback color */
+  color: white;
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 15px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
   font-weight: 600;
+  text-transform: uppercase; /* Make 'Admin' label uppercase */
 }
-.team .team-description{
-    font-size: 11px;
+
+.invite-button {
+  color: #007bff;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }
-.admin-indicator{
-    background-color: var(--admin-indicator-bg);
-    color: white;
-    font-size: 9px;
-    padding-left: 11px;
-    border-radius: 5px;
-    padding-right: 11px;
-    text-align: center;
-    display: flex;
-    align-items: center;
+
+.invite-button:hover {
+  color: #0056b3; /* Darker blue on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+.images-placeholder img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: transform 0.2s ease;
+}
+
+.images-placeholder img:hover {
+  transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+.team-members-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .task-wrapper {
   display: grid;
   flex-wrap: wrap;
-  gap: 1rem; 
+  gap: 1rem;
   padding: 1rem 1rem 1rem 1rem;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(20rem, 1fr)
-  )
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
 }
 /* HTML: <div class="loader"></div> */
-.loader {    
+.loader {
   --r1: 154%;
   --r2: 68.5%;
   width: 60px;
   aspect-ratio: 1;
-  border-radius: 50%; 
-  background:
-    radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,var(--primary-purple) 80%),
-    radial-gradient(var(--r1) var(--r2) at bottom,var(--primary-purple) 79.5%,#0000 80%),
-    radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,var(--primary-purple) 80%),
+  border-radius: 50%;
+  background: radial-gradient(
+      var(--r1) var(--r2) at top,
+      #0000 79.5%,
+      var(--primary-purple) 80%
+    ),
+    radial-gradient(
+      var(--r1) var(--r2) at bottom,
+      var(--primary-purple) 79.5%,
+      #0000 80%
+    ),
+    radial-gradient(
+      var(--r1) var(--r2) at top,
+      #0000 79.5%,
+      var(--primary-purple) 80%
+    ),
     #ccc;
   background-size: 50.5% 220%;
-  background-position: -100% 0%,0% 0%,100% 0%;
-  background-repeat:no-repeat;
+  background-position: -100% 0%, 0% 0%, 100% 0%;
+  background-repeat: no-repeat;
   animation: l9 2s infinite linear;
   position: absolute;
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 }
 @keyframes l9 {
-    33%  {background-position:    0% 33% ,100% 33% ,200% 33% }
-    66%  {background-position: -100%  66%,0%   66% ,100% 66% }
-    100% {background-position:    0% 100%,100% 100%,200% 100%}
+  33% {
+    background-position: 0% 33%, 100% 33%, 200% 33%;
+  }
+  66% {
+    background-position: -100% 66%, 0% 66%, 100% 66%;
+  }
+  100% {
+    background-position: 0% 100%, 100% 100%, 200% 100%;
+  }
 }

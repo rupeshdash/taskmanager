@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { AppDispatch } from "../store";
 import {
@@ -10,6 +11,9 @@ import {
   GET_ALL_USERS_FAILURE,
   GET_ALL_USERS_REQUEST,
   GET_ALL_USERS_SUCCESS,
+  GET_TEAM_DETAILS_FAILURE,
+  GET_TEAM_DETAILS_REQUEST,
+  GET_TEAM_DETAILS_SUCCESS,
 } from "./TeamsDetailsTypes";
 
 export const createTeam = (
@@ -134,3 +138,48 @@ export const getAllUsersFailure = (error : any) => ({
   type: GET_ALL_USERS_FAILURE,
   payload: error,
 });
+
+export const fetchTeamDetails = (requestHeader:any ,teamId: string) => {
+   return (dispatch: AppDispatch) => {
+     dispatch(getTeamDetailsRequest());
+     axios
+       .get(
+         "http://localhost:8080/api/v1/team/getteamdetails",
+
+        {
+          headers: requestHeader,
+          params: {
+            teamId: teamId
+          }
+        }
+       )
+       .then((resp) => {
+         if (resp.data.errors) {
+           dispatch(getTeamDetailsFailure(resp.data.errors));
+         } else {
+           dispatch(getTeamDetailsSuccess(resp.data));
+         }
+       })
+       .catch((error) => {
+         dispatch(getTeamDetailsFailure(error.message));
+       });
+   };
+}
+
+const getTeamDetailsRequest = () => {
+  return {
+    type : GET_TEAM_DETAILS_REQUEST
+  }
+}
+const getTeamDetailsSuccess = (data:object) => {
+  return {
+    type: GET_TEAM_DETAILS_SUCCESS,
+    payload: data
+  };
+};
+const getTeamDetailsFailure = (error:object) => {
+  return {
+    type: GET_TEAM_DETAILS_FAILURE,
+    payload: error
+  };
+};

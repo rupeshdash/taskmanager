@@ -9,7 +9,7 @@ import { fetchAllUsers } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import { Checkbox } from "../ui/checkbox";
 
 interface AddMembersProps {
-  newMembers: string[];
+  newMembers: { _id: string; email: string }[];
   setNewMembers: Function;
 }
 interface MemberType {
@@ -36,6 +36,7 @@ const AddMembers: React.FC<AddMembersProps> = ({
         : [...prevSelected, member]
     );
   };
+console.log(newMembers);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -89,14 +90,16 @@ const AddMembers: React.FC<AddMembersProps> = ({
             ref={dropdownRef}
             className="absolute top-full left-0 min-w-60 max-h-60 overflow-y-auto p-2 z-50 bg-white border border-gray-200 shadow-md rounded-md mt-2 no-scrollbar scroll-smooth"
           >
-            {members.map((member : any) => (
+            {members.map((member: any) => (
               <div
-                key={member.id}
+                key={member._id}
                 className={`flex items-center space-x-2 p-2 cursor-pointer rounded-md hover:bg-gray-100`}
                 onClick={() => toggleMember(member)}
               >
                 <Checkbox
-                  checked={newMembers.includes(member)}
+                  checked={newMembers.some(
+                    (newMember) => newMember._id === member._id
+                  )}
                   onChange={() => toggleMember(member)}
                 />
                 {/* <AvatarComp src={member.avatar} fallback={member.name[0]} /> */}

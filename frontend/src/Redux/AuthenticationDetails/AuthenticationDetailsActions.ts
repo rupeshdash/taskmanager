@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import {
   LOGIN_DETAILS_FAILURE,
@@ -21,6 +22,7 @@ export const loginUser = (requestBody: any, requestHeader: any) => {
           localStorage.setItem("token", resp?.data?.token);
           localStorage.setItem("userEmail", resp?.data?.user?.email);
           localStorage.setItem("org", resp?.data?.user?.organization);
+          localStorage.setItem("userId", resp?.data?.user?._id);
           dispatch(loginUserSuccess(resp.data));
         }
       })
@@ -60,6 +62,8 @@ export const signupUser = (requestBody: any, requestHeader: any) => {
           localStorage.setItem("token", resp?.data?.token);
           localStorage.setItem("userEmail", resp?.data?.user?.email);
           localStorage.setItem("org", resp?.data?.user?.organization);
+          localStorage.setItem("userId", resp?.data?.user?._id);
+
           dispatch(signupUserSuccess(resp.data));
         }
       })
@@ -93,6 +97,7 @@ export const logoutUserRequest = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userEmail");
   localStorage.removeItem("org");
+  localStorage.removeItem("userId");
 
   return (dispatch: any) => {
     if (!localStorage.getItem("token")) {

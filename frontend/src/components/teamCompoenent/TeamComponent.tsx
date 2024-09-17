@@ -1,27 +1,61 @@
+import { editIcon } from "@/assets/Images";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SheetTrigger } from "../ui/sheet";
+import { CreateTeamComponent } from "./CreateTeamComponent";
 
-interface TeamProps {
- team : {
-  title : String,
-  description : String,
-  admin : {
-    email : String,
-  },
-
- }
+export interface TeamProps {
+  team: {
+    _id: string;
+    title: string;
+    description: string;
+    admin: {
+      email: string;
+    };
+    isAdmin: boolean;
+    members: [
+      {
+        _id: string;
+        email: string;
+      }
+    ];
+  };
 }
 const TeamComponent: React.FC<TeamProps> = ({ team }) => {
+  const navigate = useNavigate();
+  const [openUpdateTeam, setOpenUpdateTeam] = useState(false);
   return (
-    <div className="team">
-      <div className="team-header">{team?.title}</div>
-      <div className="flex flex-col gap-4 h-full justify-evenly">
+    <div
+      className="team relative cursor-pointer"
+      onClick={() => navigate("/tasks?teamid=" + team?._id)}
+    >
+      <CreateTeamComponent source={"update"} team={team} />
+      <div title={team?.title} className="team-header">
+        {team?.title}
+      </div>
+      <div className="flex flex-col gap-4 h-4/5 justify-between">
         <div className="team-description">{team?.description}</div>
-        <div className="team-footer flex justify-between">
-          {team?.admin?.email === localStorage.getItem("userEmail") && (
-            <div className="admin-indicator">Admin</div>
-          )}
-          <div className="team-members-indicator team-footer flex justify-between gap-1 align-middle">
-            <div>Invite</div>
-            <div>images</div>
+        <div className="team-footer">
+          {team?.isAdmin && <div className="admin-indicator">Admin</div>}
+          <div className="team-members-indicator">
+            <button className="invite-button">Invite</button>
+            <div className="images-placeholder flex -space-x-2">
+              <img
+                src="https://via.placeholder.com/40"
+                alt="Member 1"
+                className="rounded-full"
+              />
+              <img
+                src="https://via.placeholder.com/40"
+                alt="Member 2"
+                className="rounded-full"
+              />
+              <img
+                src="https://via.placeholder.com/40"
+                alt="Member 3"
+                className="rounded-full"
+              />
+            </div>
           </div>
         </div>
       </div>
