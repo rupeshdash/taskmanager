@@ -5,6 +5,9 @@ import {
   GET_ALL_TASKS_FAILURE,
   GET_ALL_TASKS_REQUEST,
   GET_ALL_TASKS_SUCCESS,
+  UPDATE_TASK_FAILURE,
+  UPDATE_TASK_REQUEST,
+  UPDATE_TASK_SUCCESS,
 } from "./TaskDetailsTypes";
 
 const initialState = {
@@ -17,6 +20,9 @@ const initialState = {
   allTasks: [],
   taskAdmin: "",
   taskMembers: [],
+  updateTaskLoading: false,
+  updateTaskResponse: "",
+  updateTaskErrorResponse: "",
 };
 
 export const taskReducer = (state = initialState, action: any) => {
@@ -58,6 +64,23 @@ export const taskReducer = (state = initialState, action: any) => {
         getAllTasksLoading: false,
         getAllTasksErrorResponse: action.payload,
         allTasks: action.payload.tasks,
+      };
+    case UPDATE_TASK_REQUEST:
+      return {
+        ...state,
+        updateTaskLoading: true,
+      };
+    case UPDATE_TASK_SUCCESS:
+      return {
+        ...state,
+        updateTaskLoading: false,
+        updateTaskResponse: action.payload,
+      };
+    case UPDATE_TASK_FAILURE:
+      return {
+        ...state,
+        updateTaskLoading: false,
+        updateTaskErrorResponse: action.payload,
       };
     default:
       return state;

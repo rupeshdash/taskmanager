@@ -1,22 +1,26 @@
-import { useState, useRef, useEffect } from 'react';
-import AvatarComp from './AvatarComp';
+import { useState, useRef, useEffect } from "react";
+import AvatarComp from "./AvatarComp";
 import { Checkbox } from "@/components/ui/checkbox";
-import Grouppic from '../../assets/GroupMembers.png';
+import Grouppic from "../../assets/GroupMembers.png";
 
 interface PropType {
-  setTaskDetails: Function;
-  teamMembers: { _id: string; email: string; name:string}[];
+  teamMembers: { _id: string; email: string; name: string }[];
+  setUpdatedMembers: Function;
+  updatedMembers?: { _id: string; email: string; name: string }[];
 }
 
-const MemberSelector = ({ teamMembers , setTaskDetails }: PropType) => {
-  const [selectedMembers, setSelectedMembers] = useState<any[]>([]);
+const MemberSelector = ({
+  teamMembers,
+  updatedMembers,
+  setUpdatedMembers,
+}: PropType) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  console.log(updatedMembers, "updatedMembers");
   const toggleMember = (member: any) => {
-    setSelectedMembers((prevSelected) =>
-      prevSelected.includes(member)
-        ? prevSelected.filter((m) => m.id !== member.id)
+    setUpdatedMembers((prevSelected: any) =>
+      prevSelected.some((m: any) => m._id === member._id)
+        ? prevSelected.filter((m: any) => m._id !== member._id)
         : [...prevSelected, member]
     );
   };
@@ -55,14 +59,14 @@ const MemberSelector = ({ teamMembers , setTaskDetails }: PropType) => {
             ref={dropdownRef}
             className="absolute top-full left-0 min-w-60 max-h-60 overflow-y-auto p-2 z-50 bg-white border border-gray-200 shadow-md rounded-md mt-2 no-scrollbar scroll-smooth"
           >
-            {teamMembers.map((member) => (
+            {teamMembers?.map((member) => (
               <div
                 key={member._id}
-                className={`flex items-center space-x-2 p-2 cursor-pointer rounded-md hover:bg-gray-100`}
+                className="flex items-center space-x-2 p-2 cursor-pointer rounded-md hover:bg-gray-100"
                 onClick={() => toggleMember(member)}
               >
                 <Checkbox
-                  checked={selectedMembers.includes(member)}
+                  checked={updatedMembers?.some((m) => m._id === member._id)}
                   onChange={() => toggleMember(member)}
                 />
                 <span className="text-sm">{member.name}</span>

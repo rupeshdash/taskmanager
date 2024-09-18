@@ -106,12 +106,18 @@ export const getTeamDetails = async (req: any, res: any) => {
 
     const teamDetails = await Team.find({ _id: teamId })
       .populate("members", "-password -teamsMember -teamsAdmin -tasks")
-      .populate("allTasks")
+      .populate({
+        path: "allTasks",
+        populate: {
+          path: "members", 
+          select: "-password -teamsMember -teamsAdmin -tasks", 
+        },
+      });
    
     if (!teamDetails) {
       return res.status(400).json({ message: "Team not found." });
     }
-
+    
     return res.status(200).json({ teamDetails: teamDetails });
   } catch (err) {
     return res.status(500).json({
