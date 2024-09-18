@@ -16,7 +16,7 @@ export const createTeam = async (req: any, res: any) => {
         return member._id;
       }),
     }).select("-password");
-
+    
     const existingTeam = await Team.findOne({ _id: _id });
     if (existingTeam) {
       existingTeam.members = memberUserList;
@@ -90,6 +90,35 @@ export const getAllUsers = async (req: any, res: any) => {
       "-password -teamsMember -teamsAdmin -tasks"
     );
     return res.status(200).json({ orgUsers: orgUsers });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getTeamDetails = async (req: any, res: any) => {
+  try {
+    const { teamId } = req.query; // Fetch the organization from query params
+    if (!teamId) {
+      return res.status(400).json({ message: "Organization is required" });
+    }
+
+    const teamDetails = await Team.find({ _id: teamId })
+      .populate("members", "-password -teamsMember -teamsAdmin -tasks")
+      .populate({
+        path: "allTasks",
+        populate: {
+          path: "members", 
+          select: "-password -teamsMember -teamsAdmin -tasks", 
+        },
+      });
+   
+    if (!teamDetails) {
+      return res.status(400).json({ message: "Team not found." });
+    }
+    
+    return res.status(200).json({ teamDetails: teamDetails });
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",

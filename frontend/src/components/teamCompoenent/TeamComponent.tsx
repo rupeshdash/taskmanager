@@ -1,5 +1,6 @@
 import { editIcon } from "@/assets/Images";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SheetTrigger } from "../ui/sheet";
 import { CreateTeamComponent } from "./CreateTeamComponent";
 
@@ -21,10 +22,13 @@ export interface TeamProps {
   };
 }
 const TeamComponent: React.FC<TeamProps> = ({ team }) => {
-  
+  const navigate = useNavigate();
   const [openUpdateTeam, setOpenUpdateTeam] = useState(false);
   return (
-    <div className="team relative">
+    <div
+      className="team relative cursor-pointer"
+      onClick={() => navigate("/tasks?teamid=" + team?._id)}
+    >
       <CreateTeamComponent source={"update"} team={team} />
       <div title={team?.title} className="team-header">
         {team?.title}

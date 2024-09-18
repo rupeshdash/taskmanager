@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 //import logger from 'redux-logger'

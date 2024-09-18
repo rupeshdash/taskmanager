@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOGIN_DETAILS_FAILURE, LOGIN_DETAILS_REQUEST, LOGIN_DETAILS_SUCCESS, LOGOUT_SUCCESS, SIGNUP_DETAILS_FAILURE, SIGNUP_DETAILS_REQUEST, SIGNUP_DETAILS_SUCCESS } from "./AuthenticationDetailsTypes";
 
 const initialState = {
@@ -7,6 +8,7 @@ const initialState = {
   authToken: "",
   userName: "",
   userEmail: localStorage.getItem("userEmail") || "",
+  userId: localStorage.getItem("userId") || "",
   membersIn: "",
   adminIn: "",
   errorRespone: "",
@@ -28,6 +30,7 @@ export const authReducer = (state = initialState, action: any) => {
         authToken: action.payload.token,
         userName: action.payload.user.name,
         userEmail: action.payload.user.email,
+        userId: action.payload.user._id,
         membersIn: action.payload.user.teamsMember,
         adminIn: action.payload.user.teamsAdmin,
         isAuthenticated: true,
@@ -53,6 +56,7 @@ export const authReducer = (state = initialState, action: any) => {
         authToken: action.payload.token,
         userName: action.payload.user.name,
         userEmail: action.payload.user.email,
+        userId: action.payload.user._id,
         membersIn: action.payload.user.teamsMember,
         adminIn: action.payload.user.teamsAdmin,
         isAuthenticated: true,
