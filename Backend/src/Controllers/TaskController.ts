@@ -22,10 +22,10 @@ export const createTask = async (req: any, res: any) => {
     if (!taskAdmin) {
       return res.status(401).json({
         message: "Unauthorized task creation",
-      });
+      })
     }
     console.log("admin exist");
-    const memberIds = members.map((member: any) => member.toString());
+    const memberIds = members.map((member: any) => member?._id?.toString());
     console.log("memberIds", memberIds);
 
     const memberUserList = await User.find({
@@ -103,8 +103,42 @@ export const getAllTasks = async(req: any, res: any) => {
     });
 };
 
-export const updateTask = () => {};
+export const updateTask = async(req: any, res: any) => {
+    const {_id, title, description, members, deadline, priority, status} = req.body;
+    
+    const task = await Task.findOne({_id : _id});
+    if(!task){
+        return res.status(500).json({
+            message : "Task not found",
+        })
+    }
+    task.title = title;
+    task.description = description;
+    task.members = members;
+    task.deadline = deadline;
+    task.priority = priority;
+    task.status = status;
+    await task.save();
+    return res.status(200).json({
+        message : "Task updated successfully",
+        task : task
+    })
+};
 
-export const updateTaskStatus = () => {};
+export const updateTaskStatus = () => async (req: any, res: any) => {
+    const {taskId, status} = req.body;
+    const task = await Task.findOne({_id : taskId});
+    if(!task){
+        return res.status(500).json({
+            message : "Task not found",
+        })
+    }
+    task.status = status;
+    await task.save();
+    return res.status(200).json({
+        message : "Task updated successfully",
+        task : task
+    })
+};
 
 export const deleteTask = () => {};

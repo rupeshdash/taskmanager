@@ -1,7 +1,7 @@
 import { addImage } from "@/assets/Images";
 import { useAppDispatch } from "@/Redux/store";
 import { getAllTasks } from "@/Redux/TasksDetails/TaskDetailsActions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../designConstants/Header";
@@ -10,7 +10,7 @@ import { Tasksheet } from "./Tasksheet";
 import { fetchTeamDetails } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import Loader from "../designConstants/Loader";
 import TaskContainer from "./TaskType/TaskContainer";
-
+import groupPic1 from "../../assets/image.png";
 const TaskWrapper = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,6 +18,19 @@ const TaskWrapper = () => {
   const teamId = searchParams.get("teamid");
   const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [arrangedTasks, setArrangedTasks] = useState<any>({
+    backlog: [],
+    assigned: [],
+    in_progress: [],
+    review: [],
+  });
+  const statuses = [
+    { label: "Backlog", value: "backlog" },
+    { label: "Assigned", value: "assigned" },
+    { label: "In Progress", value: "in_progress" },
+    { label: "Review", value: "review" },
+  ]
   useEffect(() => {
     if (!teamId) {
       navigate("/teams"); // Redirect to an error page or homepage
@@ -25,6 +38,7 @@ const TaskWrapper = () => {
       getTeamDetails(teamId);
     }
   }, []);
+
   function getAllTasksAPI(teamId: any) {
     //call get task API.
     const requestHeader = {
@@ -37,7 +51,27 @@ const TaskWrapper = () => {
 
     dispatch(getAllTasks(requestBody, { headers: requestHeader }));
   }
-useEffect(() => {}, [teamData?.allTaskOfTeam]);
+  useEffect(() => {
+    if (teamData?.getTeamDetailsResponse?.teamDetails) {
+      setIsUserAdmin(
+        teamData?.getTeamDetailsResponse?.teamDetails[0]?.admin?.toString() ===
+          localStorage?.getItem("userId")
+      );
+    }
+
+    if (teamData?.allTaskOfTeam) {
+      const taskByStatus: any = {
+        backlog: [],
+        assigned: [],
+        in_progress: [],
+        review: [],
+      };
+      teamData?.allTaskOfTeam?.forEach((task: any) => {
+        taskByStatus[task?.status].push(task);
+      });
+      setArrangedTasks(taskByStatus);
+    }
+  }, [teamData]);
   function getTeamDetails(teamId: any) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -62,13 +96,24 @@ useEffect(() => {}, [teamData?.allTaskOfTeam]);
                   teamMembers={teamData?.allTeamMembers}
                   teamId={teamId ? teamId : ""}
                 />
-                <span>Tasks</span>
+                <img className="w-64" src={groupPic1} />
               </header>
               <div className="task-wrapper">
-                <TaskContainer />
-                <TaskContainer />
-                <TaskContainer />
-                <TaskContainer />
+                {
+                  statuses.map((status) => {
+                    return (
+                      <TaskContainer
+                        key={status.value}
+                        status={status.value}
+                        title={status.label}
+                        tasks={arrangedTasks[status.value]}
+                        teamMembers={teamData?.allTeamMembers}
+                        teamId={teamId ? teamId : ""}
+                        isUserAdmin={isUserAdmin}
+                      />
+                    );
+                  })
+                }
               </div>
             </>
           )}

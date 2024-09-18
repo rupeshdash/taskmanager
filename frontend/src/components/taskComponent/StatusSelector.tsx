@@ -12,6 +12,7 @@ import {
 import { TaskType } from "./Tasksheet";
 
 interface PropType {
+  defaultStatus? : string
   taskDetails: TaskType;
   setTaskDetails: Function;
 }
@@ -21,13 +22,24 @@ const statuses = [
   { label: "Assigned", value: "assigned" },
   { label: "In Progress", value: "in_progress" },
   { label: "Review", value: "review" },
+  
 ];
-export function StatusSelector({ taskDetails, setTaskDetails }: PropType) {
+const labelAlias: any = {
+  backlog: "Backlog",
+  assigned: "Assigned",
+  in_progress: "In Progress",
+  review: "Review",
+}
+export function StatusSelector({defaultStatus , taskDetails, setTaskDetails }: PropType) {
   return (
-    <Select onValueChange={(value) => setTaskDetails({ ...taskDetails, status: value })}>
+    <Select
+      onValueChange={(value) =>
+        setTaskDetails({ ...taskDetails, status: value })
+      }
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue
-          placeholder={taskDetails?.status || "Status of the task"}
+          placeholder={labelAlias[defaultStatus || taskDetails?.status] || "Status of the task"}
         />
       </SelectTrigger>
       <SelectContent>
@@ -35,10 +47,7 @@ export function StatusSelector({ taskDetails, setTaskDetails }: PropType) {
           <SelectLabel>Status</SelectLabel>
           {statuses.map((status: any) => {
             return (
-              <SelectItem
-                key={status.value}
-                value={status.value}
-              >
+              <SelectItem key={status.value} value={status.value}>
                 {status.label}
               </SelectItem>
             );

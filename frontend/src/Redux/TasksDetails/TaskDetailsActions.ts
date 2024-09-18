@@ -2,7 +2,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 import { AppDispatch } from "../store";
-import { CREATE_TASK_FAILURE, CREATE_TASK_REQUEST, CREATE_TASK_SUCCESS, GET_ALL_TASKS_FAILURE, GET_ALL_TASKS_REQUEST, GET_ALL_TASKS_SUCCESS } from "./TaskDetailsTypes";
+import {
+  CREATE_TASK_FAILURE,
+  CREATE_TASK_REQUEST,
+  CREATE_TASK_SUCCESS,
+  GET_ALL_TASKS_FAILURE,
+  GET_ALL_TASKS_REQUEST,
+  GET_ALL_TASKS_SUCCESS,
+  UPDATE_TASK_FAILURE,
+  UPDATE_TASK_REQUEST,
+  UPDATE_TASK_SUCCESS,
+} from "./TaskDetailsTypes";
+import { fetchTeamDetails } from "../TeamsDetails/TeamDetailsActions";
 
 export const createTask = (
   requestBody: any,
@@ -25,15 +36,9 @@ export const createTask = (
           const requestHeader = {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           };
-
-        //   dispatch(
-        //     getAllTasks(
-        //       {
-        //         adminEmail: adminEmail,
-        //       },
-        //       { headers: requestHeader }
-        //     )
-        //   );
+          dispatch(
+            fetchTeamDetails(requestHeader, resp?.data?.task?.team?._id)
+          );
         }
       })
       .catch((error) => {
@@ -88,5 +93,48 @@ const getAllTasksSuccess = (data: any) => ({
 
 const getAllTasksFailure = (error: any) => ({
   type: GET_ALL_TASKS_FAILURE,
+  payload: error,
+});
+
+export const updateTask = (requestBody: any, requestHeader: any) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(updateTaskRequest());
+    axios
+      .post(
+        `http://localhost:8080/api/v1/task/updatetask`,
+        requestBody,
+        requestHeader
+      )
+      .then((resp) => {
+        if (resp.data.errors) {
+          dispatch(updateTaskFailure(resp.data));
+        } else {
+          dispatch(updateTaskSuccess(resp.data));
+          const requestHeader = {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          };
+
+          dispatch(
+            fetchTeamDetails(requestHeader, resp?.data?.task?.team?._id)
+          );
+        }
+      })
+      .catch((error) => {
+        dispatch(updateTaskFailure(error));
+      });
+  };
+};
+
+const updateTaskRequest = () => ({
+  type: UPDATE_TASK_REQUEST,
+});
+
+const updateTaskSuccess = (data: any) => ({
+  type: UPDATE_TASK_SUCCESS,
+  payload: data,
+});
+
+const updateTaskFailure = (error: any) => ({
+  type: UPDATE_TASK_FAILURE,
   payload: error,
 });

@@ -27,18 +27,21 @@ interface PropType {
   source: string;
   teamMembers: { _id: string; email: string; name: string }[];
   teamId: string;
+  status?: string;
 }
 export interface TaskType {
+  _id?: number;
   title: string;
   description: string;
-  members: Array<object>;
+  members: { _id: string; email: string; name: string }[];
   createdAt: string;
-  deadline: string
-  priority: string
-  status: string
+  deadline: string;
+  priority: string;
+  status: string;
 }
-export function Tasksheet({ source, teamMembers , teamId}: PropType) {
+export function Tasksheet({ source, teamMembers , teamId ,  status}: PropType) {
   const authData = useSelector((state: any) => state.authData); 
+  const defaultStatus = status;
  const dispatch = useAppDispatch();
   const [taskDetails, setTaskDetails] = useState<TaskType>({
     title: "",
@@ -49,7 +52,7 @@ export function Tasksheet({ source, teamMembers , teamId}: PropType) {
     priority: "",
     status: "",
   });
-
+  const [updatedMembers , setUpdatedMembers] = useState([]);
   function handleCreateTask() {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,8 +61,10 @@ export function Tasksheet({ source, teamMembers , teamId}: PropType) {
     const requestBody = {
       ...taskDetails,
       createdBy: authData?.userId,
+      members: updatedMembers,
       createdAt: getTodayDate(),
-      team: teamId
+      team: teamId,
+      status: taskDetails?.status ? taskDetails?.status : defaultStatus,
     };
     setTaskDetails({
       title: "",
@@ -151,9 +156,11 @@ export function Tasksheet({ source, teamMembers , teamId}: PropType) {
           />
           <MemberSelector
             teamMembers={teamMembers}
-            setTaskDetails={setTaskDetails}
+            updatedMembers={updatedMembers}
+            setUpdatedMembers={setUpdatedMembers}
           />
           <StatusSelector
+            defaultStatus={defaultStatus}
             taskDetails={taskDetails}
             setTaskDetails={setTaskDetails}
           />
@@ -168,7 +175,9 @@ export function Tasksheet({ source, teamMembers , teamId}: PropType) {
           )}
           {source === "addTask" && (
             // <SheetClose asChild>
-            <Button type="submit">Add task</Button>
+            <Button type="submit" onClick={handleCreateTask}>
+              Add task
+            </Button>
             // </SheetClose>
           )}
         </SheetFooter>
