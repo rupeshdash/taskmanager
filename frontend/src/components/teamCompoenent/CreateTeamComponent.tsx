@@ -41,8 +41,9 @@ interface TeamProps {
 interface PropType {
   source: string;
   team?: TeamProps;
+  isAdmin?: boolean;
 }
-export function CreateTeamComponent({ source, team }: PropType) {
+export function CreateTeamComponent({ source, team, isAdmin }: PropType) {
   const authData = useSelector((state: any) => state.authData);
   const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
@@ -82,11 +83,11 @@ export function CreateTeamComponent({ source, team }: PropType) {
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <Sheet>
-        {source === "update" && (
+        {source === "update" && isAdmin && (
           <>
             <SheetTrigger asChild>
               <span
-                className="absolute -right-3 h-6 top-2 cursor-pointer"
+                className="absolute right-3 h-6 top-[0.8rem] cursor-pointer"
                 onClick={(e) => e.stopPropagation()}
               >
                 {editIcon()}
@@ -96,9 +97,11 @@ export function CreateTeamComponent({ source, team }: PropType) {
         )}
         {source === "create" && (
           <SheetTrigger asChild>
-            <button className="btn-primary flex items-center gap-3">
-              <span>+</span>
-              <span>Create team</span>
+            <button className="btn-primary flex items-center gap-3 bg-primary-purple-2">
+              <span className="text-primary-purple font-semibold">+</span>
+              <span className="text-primary-purple font-semibold">
+                Create team
+              </span>
             </button>
           </SheetTrigger>
         )}

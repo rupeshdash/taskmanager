@@ -3,20 +3,32 @@ import { TaskType } from "./Tasksheet";
 import Grouppic from "../../assets/GroupMembers.png";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { UpdateTaskDetails } from "./TaskType/UpdateTaskDetails";
+import { useState } from "react";
+import { UserTaskDetails } from "../userTaskComponents/UserTaskDetails";
+import { Badge } from "../ui/badge";
+import { editIcon } from "@/assets/Images";
 
 interface PropType {
   key: number;
   taskDetails: TaskType;
-  isUserAdmin: boolean;
-  teamMembers: { _id: string; email: string; name: string }[];
+  isUserTeamAdmin?: boolean;
+  teamMembers?: { _id: string; email: string; name: string }[];
 }
-export const Task = ({ key, taskDetails, isUserAdmin, teamMembers }: PropType) => {
+export const Task = ({
+  key,
+  taskDetails,
+  isUserTeamAdmin,
+  teamMembers,
+}: PropType) => {
+  const isUserTaskAdmin =
+    taskDetails?.createdBy?._id === localStorage.getItem("userId");
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div
           key={key}
-          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-300 ease-in-out hover:scale-110  hover:shadow-lg hover:cursor-pointer"
+          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
         >
           <div className="">
             <div className="flex justify-between items-center mb-3">
@@ -33,7 +45,14 @@ export const Task = ({ key, taskDetails, isUserAdmin, teamMembers }: PropType) =
               >
                 {taskDetails?.priority.toUpperCase()}
               </p>
-              <img src={Grouppic} alt="Group Members" className="rounded-md" />
+              <div className="flex gap-1 items-center">
+                <Badge variant={"outline"}>
+                  {taskDetails?.createdBy?.name}
+                </Badge>{" "}
+                {(isUserTaskAdmin || isUserTeamAdmin) && (
+                  <span className="h-6 top-2 cursor-pointer">{editIcon()}</span>
+                )}
+              </div>
             </div>
             <div className=" space-y-1">
               <h2 className="text-base text-primary-blue font-medium mb">
@@ -57,9 +76,23 @@ export const Task = ({ key, taskDetails, isUserAdmin, teamMembers }: PropType) =
               {/* <p className="font-medium">Assigned To</p> */}
             </div>
           </div>
+          {taskDetails?.members?.length > 0 && (
+            <div className="flex gap-2 flex-row">
+              {taskDetails?.members?.map((member: any) => (
+                <Badge variant={"secondary"}>{member?.name}</Badge>
+              ))}
+            </div>
+          )}
         </div>
       </DialogTrigger>
-      <UpdateTaskDetails taskDetails={taskDetails} teamMembers={teamMembers} />
+      {isUserTaskAdmin || isUserTeamAdmin ? (
+        <UpdateTaskDetails
+          taskDetails={taskDetails}
+          teamMembers={teamMembers}
+        />
+      ) : (
+        <UserTaskDetails taskDetails={taskDetails} />
+      )}
     </Dialog>
   );
 };

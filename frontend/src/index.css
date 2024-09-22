@@ -105,12 +105,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --primary-purple: #5051f9;
+  --primary-purple-2: #5051f924;
   --hover-purple: #b5b6f9;
   --wrapper-bg-grey: #F3F4F8;
   --bg-white: #ffffff;
-  --admin-indicator-bg: #41D37E;
   --primary-blue:#232360;
-
+  --custom-grey: #eaeaea;
+  --primary-btn-hover: #5051f95e;
+  --bg-grey-status: #8080801f;
+  --admin-green: #1cba1c6b
 }
 
 /* body {

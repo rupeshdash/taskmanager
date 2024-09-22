@@ -12,7 +12,7 @@ export const createTask = async (req: any, res: any) => {
     deadline,
     priority,
     team,
-    status
+    status,
   } = req.body;
   try {
     //check if admin of task exist or not
@@ -22,7 +22,7 @@ export const createTask = async (req: any, res: any) => {
     if (!taskAdmin) {
       return res.status(401).json({
         message: "Unauthorized task creation",
-      })
+      });
     }
     console.log("admin exist");
     const memberIds = members.map((member: any) => member?._id?.toString());
@@ -89,56 +89,85 @@ export const createTask = async (req: any, res: any) => {
   }
 };
 
-export const getAllTasks = async(req: any, res: any) => {
-    const {team} = req.body;
-    const requiredTeam = await Team.findOne({_id : team}).populate("allTasks");
-    if(!requiredTeam){
-        return res.status(500).json({
-            message : "Team not found",
-        })
-    }
+export const getAllTasks = async (req: any, res: any) => {
+  const userId = req.header("userId");
 
-    return res.status(200).json({
-      allTasks: requiredTeam?.allTasks,
+  const requiredUser = await User.findOne({ _id: userId }).populate({
+    path: "tasks",
+    populate: {
+      path: "members",
+      select: "-password -teamsMember -teamsAdmin -tasks",
+    },
+  });
+  if (!requiredUser) {
+    return res.status(500).json({
+      message: "User not found",
     });
+  }
+
+  return res.status(200).json({
+    allTasks: requiredUser?.tasks,
+  });
 };
 
-export const updateTask = async(req: any, res: any) => {
-    const {_id, title, description, members, deadline, priority, status} = req.body;
-    
-    const task = await Task.findOne({_id : _id});
-    if(!task){
-        return res.status(500).json({
-            message : "Task not found",
-        })
-    }
-    task.title = title;
-    task.description = description;
-    task.members = members;
-    task.deadline = deadline;
-    task.priority = priority;
-    task.status = status;
-    await task.save();
-    return res.status(200).json({
-        message : "Task updated successfully",
-        task : task
-    })
+export const updateTask = async (req: any, res: any) => {
+  const { _id, title, description, members, deadline, priority, status } =
+    req.body;
+
+  const task = await Task.findOne({ _id: _id });
+  if (!task) {
+    return res.status(500).json({
+      message: "Task not found",
+    });
+  }
+
+  // Store the current members for comparison
+  const currentMembers = task.members.map((member) => member.toString());
+
+  task.title = title;
+  task.description = description;
+  task.members = members;
+  task.deadline = deadline;
+  task.priority = priority;
+  task.status = status;
+  await task.save();
+
+  // Update task references in user documents
+  // Remove task from users who are no longer members
+  await User.updateMany(
+    { _id: { $in: currentMembers }, tasks: _id },
+    { $pull: { tasks: _id } }
+  );
+
+  // Add task to the new members' task lists
+  await User.updateMany(
+    { _id: { $in: members }, tasks: { $ne: _id } },
+    { $push: { tasks: _id } }
+  );
+
+  return res.status(200).json({
+    message: "Task updated successfully",
+    task: task,
+  });
 };
 
-export const updateTaskStatus = () => async (req: any, res: any) => {
-    const {taskId, status} = req.body;
-    const task = await Task.findOne({_id : taskId});
-    if(!task){
-        return res.status(500).json({
-            message : "Task not found",
-        })
-    }
-    task.status = status;
-    await task.save();
-    return res.status(200).json({
-        message : "Task updated successfully",
-        task : task
-    })
+export const updateTaskStatus = async (req: any, res: any) => {
+  console.log("Update has started");
+
+  const { taskId, status } = req.body;
+  const task = await Task.findOne({ _id: taskId });
+  if (!task) {
+    return res.status(500).json({
+      message: "Task not found",
+    });
+  }
+  task.status = status;
+  task.save();
+  return res.status(200).json({
+    status: 200,
+    message: "Task updated successfully",
+    task: task,
+  });
 };
 
 export const deleteTask = () => {};

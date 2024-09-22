@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
+import FileUpload from "./FileUpload";
 
 const Login = () => {
   const dispatch:any = useDispatch();
@@ -47,6 +48,7 @@ const Login = () => {
         ```
       */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <FileUpload/>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img
             alt="Your Company"

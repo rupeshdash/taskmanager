@@ -18,7 +18,12 @@ const TaskWrapper = () => {
   const teamId = searchParams.get("teamid");
   const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [isUserTeamAdmin, setIsUserTeamAdmin] = useState(false);
+  const [updatedStatus, setUpdatedStatus] = useState<{
+    taskId: string;
+    status: string;
+    prevStatus: string;
+  }>({ taskId: "", status: "", prevStatus: "" });
   const [arrangedTasks, setArrangedTasks] = useState<any>({
     backlog: [],
     assigned: [],
@@ -39,21 +44,10 @@ const TaskWrapper = () => {
     }
   }, []);
 
-  function getAllTasksAPI(teamId: any) {
-    //call get task API.
-    const requestHeader = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    };
 
-    const requestBody = {
-      team: teamId,
-    };
-
-    dispatch(getAllTasks(requestBody, { headers: requestHeader }));
-  }
   useEffect(() => {
     if (teamData?.getTeamDetailsResponse?.teamDetails) {
-      setIsUserAdmin(
+      setIsUserTeamAdmin(
         teamData?.getTeamDetailsResponse?.teamDetails[0]?.admin?.toString() ===
           localStorage?.getItem("userId")
       );
@@ -67,7 +61,7 @@ const TaskWrapper = () => {
         review: [],
       };
       teamData?.allTaskOfTeam?.forEach((task: any) => {
-        taskByStatus[task?.status].push(task);
+       taskByStatus[task?.status] && taskByStatus[task?.status].push(task);
       });
       setArrangedTasks(taskByStatus);
     }
@@ -86,9 +80,7 @@ const TaskWrapper = () => {
         {" "}
         <Header />
         <section className="team-section">
-          {teamData?.getTeamDetailsLoading ? (
-            <Loader />
-          ) : (
+        
             <>
               <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
                 <Tasksheet
@@ -109,14 +101,16 @@ const TaskWrapper = () => {
                         tasks={arrangedTasks[status.value]}
                         teamMembers={teamData?.allTeamMembers}
                         teamId={teamId ? teamId : ""}
-                        isUserAdmin={isUserAdmin}
+                        isUserTeamAdmin={isUserTeamAdmin}
+                        updatedStatus={updatedStatus}
+                        setUpdatedStatus={setUpdatedStatus}
                       />
                     );
                   })
                 }
               </div>
             </>
-          )}
+          
         </section>
       </div>
     </div>

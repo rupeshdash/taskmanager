@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./Redux/store";
 import ProtectedRoute from "./components/authentication/ProtectedRoute";
 import PublicRoute from "./components/authentication/PublicRoute";
+import UserTaskWrapper from "./components/userTaskComponents/UserTaskWrapper";
 const App = () => {
   return (
     <Provider store={store}>
@@ -24,7 +25,8 @@ const App = () => {
           {/* Protected routes */}
           <Route path="/" element={<ProtectedRoute />}>
             <Route path="teams" element={<TeamsWrapper />} />
-            <Route path="tasks" element={<TaskWrapper />} />
+            <Route path="team" element={<TaskWrapper />} />
+            <Route path="/tasks" element={<UserTaskWrapper />} />
           </Route>
         </Routes>
       </Router>
