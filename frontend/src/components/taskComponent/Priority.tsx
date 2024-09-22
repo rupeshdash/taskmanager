@@ -27,7 +27,7 @@ const Priority = ({priority, setTaskDetails } : PropType) => {
     <div>
       <Select onValueChange={(value) => setTaskDetails((prev:any)=> {return {...prev, priority: value}})}>
         <SelectTrigger
-          className={`w-[150px] ${
+          className={`w-[100px] ${
             priority === "high"
               ? "bg-red-500 text-white"
               : priority === "medium"
@@ -37,7 +37,7 @@ const Priority = ({priority, setTaskDetails } : PropType) => {
               : ""
           }`}
         >
-          <SelectValue placeholder={priority}/>
+          <SelectValue placeholder={priority || "Priority"}/>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

@@ -5,6 +5,6 @@ import authMiddleware from "../Middlewares/Authtentication";
 export const taskRouter = Router();
 taskRouter.use(authMiddleware);
 taskRouter.post("/createtask", createTask);
-taskRouter.post("/getalltasks", getAllTasks);
-taskRouter.post("/updatestatus",updateTaskStatus)
+taskRouter.get("/getalltasks", getAllTasks);
+taskRouter.post("/updatetaskstatus", updateTaskStatus);
 taskRouter.post("/updatetask",updateTask)

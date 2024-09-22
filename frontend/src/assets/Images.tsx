@@ -198,8 +198,8 @@ export const editIcon = ()=>{
     <svg
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
-      width="64"
-      height="64"
+      width="30"
+      height="30"
       className="h-6"
     >
       <path

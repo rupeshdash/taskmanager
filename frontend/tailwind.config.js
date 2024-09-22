@@ -21,11 +21,16 @@ export default {
     extend: {
       colors: {
         'primary-purple': 'var(--primary-purple)',
+        'primary-purple-2': 'var(--primary-purple-2)',
         'hover-purple': 'var(--hover-purple)',
         'wrapper-bg-grey': 'var(--wrapper-bg-grey)',
+        'bg-grey-status': 'var(--bg-grey-status)',
         'bg-white': 'var(--bg-white)',
         'admin-indicator-bg': 'var(--admin-indicator-bg)',
         'primary-blue': 'var(--primary-blue)',
+        'custom-grey': 'var(--custom-grey)',
+        'primary-btn-hover': 'var(--primary-btn-hover)',
+        'admin-green': 'var(--admin-green)',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

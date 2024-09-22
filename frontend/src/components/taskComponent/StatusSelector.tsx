@@ -22,6 +22,7 @@ const statuses = [
   { label: "Assigned", value: "assigned" },
   { label: "In Progress", value: "in_progress" },
   { label: "Review", value: "review" },
+  { label: "Close", value: "close" },
   
 ];
 const labelAlias: any = {
@@ -29,6 +30,7 @@ const labelAlias: any = {
   assigned: "Assigned",
   in_progress: "In Progress",
   review: "Review",
+  close: "Close"
 }
 export function StatusSelector({defaultStatus , taskDetails, setTaskDetails }: PropType) {
   return (

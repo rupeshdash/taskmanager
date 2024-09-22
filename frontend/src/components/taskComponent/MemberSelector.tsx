@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Grouppic from "../../assets/GroupMembers.png";
 
 interface PropType {
-  teamMembers: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string }[];
   setUpdatedMembers: Function;
   updatedMembers?: { _id: string; email: string; name: string }[];
 }
