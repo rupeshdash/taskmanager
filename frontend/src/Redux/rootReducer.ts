@@ -6,7 +6,7 @@ import { teamReducer } from "./TeamsDetails/TeamDetailsReducers";
 const rootReducer = combineReducers({
     authData : authReducer,
     teamData: teamReducer,
-    taskdata: taskReducer,
+    taskData: taskReducer,
 })
 
 export default rootReducer

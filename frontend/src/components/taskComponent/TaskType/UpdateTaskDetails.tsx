@@ -23,7 +23,7 @@ import { updateTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 
 interface PropType {
   taskDetails: TaskType;
-  teamMembers: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string }[];
 }
 export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
   const authData = useSelector((state: any) => state.authData); 
@@ -32,6 +32,7 @@ export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
 
   const [taskProperties, setTaskProperties] = useState<TaskType>({
     _id: taskDetails?._id,
+    createdBy: taskDetails?.createdBy,
     title: taskDetails?.title,
     description: taskDetails?.description,
     members: updatedMembers,
