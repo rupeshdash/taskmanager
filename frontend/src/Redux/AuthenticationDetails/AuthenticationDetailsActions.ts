@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import {
+  GET_USER_DETAILS,
+  GET_USER_DETAILS_SUCCESS,
   LOGIN_DETAILS_FAILURE,
   LOGIN_DETAILS_REQUEST,
   LOGIN_DETAILS_SUCCESS,
@@ -9,6 +11,7 @@ import {
   SIGNUP_DETAILS_REQUEST,
   SIGNUP_DETAILS_SUCCESS,
 } from "./AuthenticationDetailsTypes";
+import { AppDispatch } from "../store";
 
 export const loginUser = (requestBody: any, requestHeader: any) => {
   return (dispatch: any) => {
@@ -23,6 +26,9 @@ export const loginUser = (requestBody: any, requestHeader: any) => {
           localStorage.setItem("userEmail", resp?.data?.user?.email);
           localStorage.setItem("org", resp?.data?.user?.organization);
           localStorage.setItem("userId", resp?.data?.user?._id);
+          localStorage.setItem("avatar", resp?.data?.user?.avatar);
+          localStorage.setItem("userName", resp?.data?.user?.name);
+
           dispatch(loginUserSuccess(resp.data));
         }
       })
@@ -63,7 +69,8 @@ export const signupUser = (requestBody: any, requestHeader: any) => {
           localStorage.setItem("userEmail", resp?.data?.user?.email);
           localStorage.setItem("org", resp?.data?.user?.organization);
           localStorage.setItem("userId", resp?.data?.user?._id);
-
+          localStorage.setItem("avatar", resp?.data?.user?.avatar);
+          localStorage.setItem("userName", resp?.data?.user?.name);
           dispatch(signupUserSuccess(resp.data));
         }
       })
@@ -98,7 +105,8 @@ export const logoutUserRequest = () => {
   localStorage.removeItem("userEmail");
   localStorage.removeItem("org");
   localStorage.removeItem("userId");
-
+  localStorage.removeItem("avatar");
+  localStorage.removeItem("userName");
   return (dispatch: any) => {
     if (!localStorage.getItem("token")) {
       dispatch(logoutuserSuccess());
@@ -109,5 +117,43 @@ export const logoutUserRequest = () => {
 const logoutuserSuccess = () => {
   return {
     type: LOGOUT_SUCCESS,
+  };
+};
+
+export const fetchUserDetails = (requestHeader: any) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(fetchUserDetailsRequest());
+    axios
+      .get("http://localhost:8080/api/user/getuserdetails", requestHeader)
+      .then((resp) => {
+        if (resp.data.errors) {
+          dispatch(fetchUserDetailsFailure(resp.data.errors));
+        } else {
+          dispatch(fetchUserDetailsSuccess(resp.data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchUserDetailsFailure(error.message));
+      });
+  };
+};
+
+const fetchUserDetailsRequest = () => {
+  return {
+    type: GET_USER_DETAILS,
+  };
+};
+
+const fetchUserDetailsSuccess = (apiData: any) => {
+  return {
+    type: GET_USER_DETAILS_SUCCESS,
+    payload: apiData,
+  };
+};
+
+const fetchUserDetailsFailure = (apiError: any) => {
+  return {
+    type: GET_USER_DETAILS_SUCCESS,
+    payload: apiError,
   };
 };

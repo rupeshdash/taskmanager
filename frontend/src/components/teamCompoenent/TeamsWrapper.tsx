@@ -24,7 +24,8 @@ const TeamsWrapper = () => {
 
     dispatch(getAllTeams(requestBody, { headers: requestHeader }));
   }, []);
-
+  console.log(authData);
+  
 
   return (
     <div className="page-wrapper">
