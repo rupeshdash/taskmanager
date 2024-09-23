@@ -11,6 +11,7 @@ import { fetchTeamDetails } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import Loader from "../designConstants/Loader";
 import TaskContainer from "./TaskType/TaskContainer";
 import groupPic1 from "../../assets/image.png";
+import AvatarCircles from "../magicui/avatar-circles";
 const TaskWrapper = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const TaskWrapper = () => {
     in_progress: [],
     review: [],
   });
+  const [teamMembersDetails , setTeamMembersDetails] = useState([]);
+  const [avatarUrls , setAvatarUrls] = useState([]);
   const statuses = [
     { label: "Backlog", value: "backlog" },
     { label: "Assigned", value: "assigned" },
@@ -65,6 +68,16 @@ const TaskWrapper = () => {
       });
       setArrangedTasks(taskByStatus);
     }
+    if(teamData?.allTeamMembers){
+      let userDetails = teamData?.allTeamMembers?.map((user: any) => {
+        return { label: user?.name, value: user?.email };
+      })
+      let avatarUrls = teamData?.allTeamMembers?.map((user: any) => {
+        return user?.avatar
+      })
+      setAvatarUrls(avatarUrls)
+      setTeamMembersDetails(userDetails)
+    }
   }, [teamData]);
   function getTeamDetails(teamId: any) {
     const requestHeader = {
@@ -73,6 +86,12 @@ const TaskWrapper = () => {
 
     dispatch(fetchTeamDetails(requestHeader, teamId));
   }
+  // const avatarUrls = [
+  //   "https://avatars.githubusercontent.com/u/16860528",
+  //   "https://avatars.githubusercontent.com/u/20110627",
+  //   "https://avatars.githubusercontent.com/u/106103625",
+  //   "https://avatars.githubusercontent.com/u/59228569",
+  // ];
   return (
     <div className="page-wrapper">
       <Navigation />
@@ -80,37 +99,34 @@ const TaskWrapper = () => {
         {" "}
         <Header />
         <section className="team-section">
-        
-            <>
-              <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
-                <Tasksheet
-                  source={"createTask"}
-                  teamMembers={teamData?.allTeamMembers}
-                  teamId={teamId ? teamId : ""}
-                />
-                <img className="w-64" src={groupPic1} />
-              </header>
-              <div className="task-wrapper">
-                {
-                  statuses.map((status) => {
-                    return (
-                      <TaskContainer
-                        key={status.value}
-                        status={status.value}
-                        title={status.label}
-                        tasks={arrangedTasks[status.value]}
-                        teamMembers={teamData?.allTeamMembers}
-                        teamId={teamId ? teamId : ""}
-                        isUserTeamAdmin={isUserTeamAdmin}
-                        updatedStatus={updatedStatus}
-                        setUpdatedStatus={setUpdatedStatus}
-                      />
-                    );
-                  })
-                }
-              </div>
-            </>
-          
+          <>
+            <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
+              <Tasksheet
+                source={"createTask"}
+                teamMembers={teamData?.allTeamMembers}
+                teamId={teamId ? teamId : ""}
+              />
+              {/* <img className="w-64" src={groupPic1} /> */}
+              <AvatarCircles  avatarUrls={avatarUrls} />
+            </header>
+            <div className="task-wrapper">
+              {statuses.map((status) => {
+                return (
+                  <TaskContainer
+                    key={status.value}
+                    status={status.value}
+                    title={status.label}
+                    tasks={arrangedTasks[status.value]}
+                    teamMembers={teamData?.allTeamMembers}
+                    teamId={teamId ? teamId : ""}
+                    isUserTeamAdmin={isUserTeamAdmin}
+                    updatedStatus={updatedStatus}
+                    setUpdatedStatus={setUpdatedStatus}
+                  />
+                );
+              })}
+            </div>
+          </>
         </section>
       </div>
     </div>

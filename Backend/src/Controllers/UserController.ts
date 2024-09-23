@@ -3,6 +3,8 @@ import { LoginSchema, SignupSchema } from "../ZodSchema/validation";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import { uploadOnCloudinary } from "../config/cloudinary";
+
 const jwt_secret = process.env.JWT_SECRET || "";
 
 export const login = async (req: any, res: any) => {
@@ -11,8 +13,7 @@ export const login = async (req: any, res: any) => {
     const result = LoginSchema.safeParse({ email, password });
     if (!result.success) {
       return res.json({
-        errors : [{message: "Invalid inputs"}]
-        
+        errors: [{ message: "Invalid inputs" }],
       });
     }
     const existingUser = await User.findOne({
@@ -48,9 +49,17 @@ export const login = async (req: any, res: any) => {
 };
 
 export const signup = async (req: any, res: any) => {
-  const { email, password, name , organization } = req.body;
+  const { email, password, name, organization } = req.body;
+  const { avatar } = req?.files;
+  console.log(email, password, name, organization, avatar);
 
-  const result = SignupSchema.safeParse({ email, password, name , organization });
+  const result = SignupSchema.safeParse({
+    email: email.trim(),
+    password: password.trim(),
+    name: name.trim(),
+    organization: name.trim(),
+  });
+  console.log(result);
 
   if (!result.success) {
     return res.status(401).json({
@@ -67,6 +76,16 @@ export const signup = async (req: any, res: any) => {
       message: "user already exists",
     });
   }
+
+  console.log(avatar);
+  const avatarLocalPath = avatar[0]?.path;
+
+  const avatarUploadResult = await uploadOnCloudinary(avatarLocalPath);
+  if (!avatarUploadResult || !avatarUploadResult?.url) {
+    return res.status(400).json({
+      message: "Avatar image is required",
+    });
+  }
   const salt = await bcrypt.genSaltSync(10);
   const hashedPassword = await bcrypt.hashSync(password, salt);
   try {
@@ -75,6 +94,7 @@ export const signup = async (req: any, res: any) => {
       name,
       password: hashedPassword,
       organization,
+      avatar: avatarUploadResult?.url,
     });
     const createdUser = await User.findOne({ _id: user._id }).select(
       "-password"
@@ -93,3 +113,25 @@ export const signup = async (req: any, res: any) => {
     });
   }
 };
+
+export const getUserDetails = async (req: any, res: any) => {
+   const userId = req.header("userId");
+  try {
+    const user = await User.findOne({ _id: userId }).select(
+      "-password"
+    );
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      user: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+}
