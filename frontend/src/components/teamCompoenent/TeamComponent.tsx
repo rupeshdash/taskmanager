@@ -5,6 +5,8 @@ import { SheetTrigger } from "../ui/sheet";
 import { CreateTeamComponent } from "./CreateTeamComponent";
 import Grouppic from "../../assets/GroupMembers.png";
 import { Badge } from "../ui/badge";
+import CustomAvatar from "../designConstants/CustomAvatar";
+import BagdeWithName from "../designConstants/BagdeWithName";
 
 export interface TeamProps {
   team: {
@@ -12,14 +14,17 @@ export interface TeamProps {
     title: string;
     description: string;
     admin: {
+      _id: string;
       email: string;
       name: string;
+      avatar: string;
     };
     isAdmin: boolean;
     members: [
       {
         _id: string;
         email: string;
+        avatar: string;
       }
     ];
   };
@@ -44,7 +49,11 @@ const TeamComponent: React.FC<TeamProps> = ({ team }) => {
             <Badge className="bg-admin-green text-green-600">Admin</Badge>
           )}
           <div className="flex gap-1 items-center">
-            <Badge variant={"outline"}>{team?.admin?.name}</Badge>
+            <BagdeWithName
+              _id={team?.admin?._id}
+              name={team?.admin?.name}
+              avatar={team?.admin?.avatar}
+            />
           </div>
         </div>
         <div className=" space-y-1">
@@ -58,13 +67,11 @@ const TeamComponent: React.FC<TeamProps> = ({ team }) => {
         {team?.members?.length > 0 && (
           <div>
             {team?.members?.map((member: any) => (
-              <Badge
-                className="max-w-max mr-2 mb-2"
-                variant={"secondary"}
-                key={member?.id}
-              >
-                {member?.name}
-              </Badge>
+              <BagdeWithName
+                _id={member?._id}
+                name={member?.name}
+                avatar={member?.avatar}
+              />
             ))}
           </div>
         )}

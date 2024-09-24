@@ -2,11 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import AvatarComp from "./AvatarComp";
 import { Checkbox } from "@/components/ui/checkbox";
 import Grouppic from "../../assets/GroupMembers.png";
+import CustomAvatar from "../designConstants/CustomAvatar";
 
 interface PropType {
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar:string}[];
   setUpdatedMembers: Function;
-  updatedMembers?: { _id: string; email: string; name: string }[];
+  updatedMembers?: { _id: string; email: string; name: string; avatar:string }[];
 }
 
 const MemberSelector = ({
@@ -17,6 +18,7 @@ const MemberSelector = ({
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   console.log(updatedMembers, "updatedMembers");
+  
   const toggleMember = (member: any) => {
     setUpdatedMembers((prevSelected: any) =>
       prevSelected.some((m: any) => m._id === member._id)
@@ -52,7 +54,15 @@ const MemberSelector = ({
           className="hover:opacity-75"
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
-          <img src={Grouppic} alt="Group Members" className="rounded-md" />
+          <div className="flex flex-row p-2 bg-custom-grey items-center rounded-[20px]">
+            {updatedMembers?.map((member) => (
+              <CustomAvatar src={member.avatar} alt={"avatar"} size="20px" />
+            ))}
+            {updatedMembers && updatedMembers?.length === 0 && (
+              <span className="ml-2 text-sm">Add members</span>
+            )}
+            <span className="ml-2 font-bold">+</span>
+          </div>
         </button>
         {isDropdownOpen && (
           <div
@@ -69,7 +79,12 @@ const MemberSelector = ({
                   checked={updatedMembers?.some((m) => m._id === member._id)}
                   onChange={() => toggleMember(member)}
                 />
-                <span className="text-sm">{member.name}</span>
+                <CustomAvatar src={member.avatar} alt={"avatar"} size="20px" />
+                <span className="text-sm">
+                  {member?._id === localStorage.getItem("userId")
+                    ? "You"
+                    : member.name}
+                </span>
               </div>
             ))}
           </div>

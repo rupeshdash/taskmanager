@@ -9,8 +9,12 @@ const jwt_secret = process.env.JWT_SECRET || "";
 
 export const login = async (req: any, res: any) => {
   const { email, password } = req.body;
+  console.log(email, password);
+  
   try {
     const result = LoginSchema.safeParse({ email, password });
+    console.log(result);
+    
     if (!result.success) {
       return res.json({
         errors: [{ message: "Invalid inputs" }],
@@ -19,13 +23,16 @@ export const login = async (req: any, res: any) => {
     const existingUser = await User.findOne({
       email: email,
     });
+    console.log("existingUser", existingUser);
+    
     if (!existingUser) {
       return res.json({
         errors: [{ message: "Invalid inputs" }],
       });
     }
     const match = await bcrypt.compare(password, existingUser.password);
-
+    console.log("match", match);
+    
     if (!match) {
       return res.json({
         errors: [{ message: "Invalid inputs" }],
@@ -78,14 +85,20 @@ export const signup = async (req: any, res: any) => {
   }
 
   console.log(avatar);
-  const avatarLocalPath = avatar[0]?.path;
+  let avatarUploadResult: any = {
+    url: "https://res.cloudinary.com/task-manager-0/image/upload/v1727164454/ayiuesrjbipxj1cxqbdm.jpg",
+  };
+  if (avatar) {
+    const avatarLocalPath = avatar[0]?.path;
 
-  const avatarUploadResult = await uploadOnCloudinary(avatarLocalPath);
-  if (!avatarUploadResult || !avatarUploadResult?.url) {
-    return res.status(400).json({
-      message: "Avatar image is required",
-    });
+    avatarUploadResult = await uploadOnCloudinary(avatarLocalPath);
+    if (!avatarUploadResult || !avatarUploadResult?.url) {
+      return res.status(400).json({
+        message: "Avatar image is required",
+      });
+    }
   }
+
   const salt = await bcrypt.genSaltSync(10);
   const hashedPassword = await bcrypt.hashSync(password, salt);
   try {
@@ -115,11 +128,9 @@ export const signup = async (req: any, res: any) => {
 };
 
 export const getUserDetails = async (req: any, res: any) => {
-   const userId = req.header("userId");
+  const userId = req.header("userId");
   try {
-    const user = await User.findOne({ _id: userId }).select(
-      "-password"
-    );
+    const user = await User.findOne({ _id: userId }).select("-password");
     if (!user) {
       return res.status(400).json({
         message: "User not found",
@@ -134,4 +145,4 @@ export const getUserDetails = async (req: any, res: any) => {
       message: "Internal server error",
     });
   }
-}
+};

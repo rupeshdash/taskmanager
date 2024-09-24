@@ -12,7 +12,7 @@ import {
 import { TaskType } from "./Tasksheet";
 
 interface PropType {
-  defaultStatus? : string
+  defaultStatus?: string;
   taskDetails: TaskType;
   setTaskDetails: Function;
 }
@@ -23,25 +23,34 @@ const statuses = [
   { label: "In Progress", value: "in_progress" },
   { label: "Review", value: "review" },
   { label: "Close", value: "close" },
-  
 ];
 const labelAlias: any = {
   backlog: "Backlog",
   assigned: "Assigned",
   in_progress: "In Progress",
   review: "Review",
-  close: "Close"
-}
-export function StatusSelector({defaultStatus , taskDetails, setTaskDetails }: PropType) {
+  close: "Close",
+};
+export function StatusSelector({
+  defaultStatus,
+  taskDetails,
+  setTaskDetails,
+}: PropType) {
+  const statusChangehandler = (value: any) => {
+    if (value === "backlog") {
+      setTaskDetails({ ...taskDetails, status: value, members: [] });
+    } else {
+      setTaskDetails({ ...taskDetails, status: value });
+    }
+  };
   return (
-    <Select
-      onValueChange={(value) =>
-        setTaskDetails({ ...taskDetails, status: value })
-      }
-    >
+    <Select onValueChange={(value) => statusChangehandler(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue
-          placeholder={labelAlias[defaultStatus || taskDetails?.status] || "Status of the task"}
+          placeholder={
+            labelAlias[defaultStatus || taskDetails?.status] ||
+            "Status of the task"
+          }
         />
       </SelectTrigger>
       <SelectContent>

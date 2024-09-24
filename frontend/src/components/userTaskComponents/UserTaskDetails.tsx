@@ -7,12 +7,14 @@ import {
 import { TaskType } from "../taskComponent/Tasksheet";
 import { formatDate } from "../helper";
 import { Badge } from "../ui/badge";
+import CustomAvatar from "../designConstants/CustomAvatar";
+import BagdeWithName from "../designConstants/BagdeWithName";
 interface PropType {
   taskDetails: TaskType;
 }
-export function UserTaskDetails({taskDetails}: PropType) {
-    console.log(taskDetails);
-    
+export function UserTaskDetails({ taskDetails }: PropType) {
+  console.log(taskDetails);
+
   return (
     <>
       <DialogContent className="sm:max-w-[425px]">
@@ -39,14 +41,16 @@ export function UserTaskDetails({taskDetails}: PropType) {
         </DialogHeader>
         <div className="flex gap-2 items-center text-sm mt-4">
           {taskDetails?.members?.map((member) => (
-            <Badge key={member?._id} variant="secondary">
-              {member?.name}
-            </Badge>
+            <BagdeWithName
+              _id={member?._id}
+              name={member?.name}
+              avatar={member?.avatar}
+            />
           ))}
 
           <div className="flex gap-2 items-center text-[#5A5A5A]"></div>
         </div>
-       
+
         <div className="grid gap-4">
           <div className=" flex justify-between items-center text-sm mt-4">
             <p className="text-primary-blue font-medium">

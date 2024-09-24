@@ -6,7 +6,7 @@ const initialState = {
   isAuthenticated: !!localStorage.getItem("token"),
   authLoginResponse: "",
   authToken: "",
-  userName: localStorage.getItem("name") || "",
+  userName: localStorage.getItem("userName") || "",
   userEmail: localStorage.getItem("userEmail") || "",
   userId: localStorage.getItem("userId") || "",
   avatar: localStorage.getItem("avatar") || "",

@@ -4,13 +4,14 @@ import { Task } from "../Task";
 import { TaskType } from "../Tasksheet";
 import { useSelector } from "react-redux";
 import { SkeletonLoading } from "@/components/designConstants/SkeletonLoading";
+import SortTask from "../SearchAndSortTask/SortTask/SortTask";
 
 interface PropType {
   status: string;
   tasks: Array<TaskType>;
   title: string;
   teamId?: string;
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar:string }[];
   isUserTeamAdmin?: boolean;
   source?: string;
   updatedStatus?: {
@@ -37,7 +38,7 @@ const TaskContainer = ({
   const taskData = useSelector((state: any) => state.taskData);
   return (
     <div className="w-full space-y-8">
-      <div className="sticky top-12 z-10 bg-wrapper-bg-grey p-[0.7rem]">
+      <div className="sticky top-12 z-10 bg-wrapper-bg-grey p-[0.7rem] relative">
         <Addtask
           status={status}
           title={title}
@@ -45,6 +46,7 @@ const TaskContainer = ({
           teamId={teamId ? teamId : ""}
           source={source}
         />
+        {/* <SortTask/> */}
       </div>
 
       {teamData?.getTeamDetailsLoading && !showLoaderFortasks && (

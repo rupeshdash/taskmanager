@@ -1,10 +1,9 @@
-import { addImage, editIcon } from "@/assets/Images";
+import {  editIcon } from "@/assets/Images";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -15,15 +14,10 @@ import {
 import { useAppDispatch } from "@/Redux/store";
 import {
   createTeam,
-  getAllTeams,
 } from "@/Redux/TeamsDetails/TeamDetailsActions";
 
-import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useSelector } from "react-redux";
-import { DatePicker } from "../taskComponent/DatePicker";
-import MemberSelector from "../taskComponent/MemberSelector";
-import Priority from "../taskComponent/Priority";
 import { Textarea } from "../ui/textarea";
 import AddMembers from "./AddMembers";
 import { getTodayDate } from "./teamsHelper";
@@ -36,7 +30,7 @@ interface TeamProps {
     email: string;
   };
   isAdmin: boolean;
-  members: { _id: string; email: string }[];
+  members: { _id: string; email: string; avatar: string }[];
 }
 interface PropType {
   source: string;
@@ -45,11 +39,18 @@ interface PropType {
 }
 export function CreateTeamComponent({ source, team, isAdmin }: PropType) {
   const authData = useSelector((state: any) => state.authData);
-  const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
   const [newMembers, setNewMembers] = useState<
-    { _id: string; email: string }[]
-  >(team?.members || []);
+    { _id: string; email: string; avatar: string }[]
+  >(
+    team?.members || [
+      {
+        _id: authData?.userId,
+        email: authData?.userEmail,
+        avatar: authData?.avatar,
+      },
+    ]
+  );
   const [teamDetails, setTeamDetails] = useState({
     admin: team?.admin?.email || "",
     members: team?.members || [],

@@ -23,11 +23,11 @@ import { updateTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 
 interface PropType {
   taskDetails: TaskType;
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
 }
 export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
-  const authData = useSelector((state: any) => state.authData); 
- const dispatch = useAppDispatch();
+  const authData = useSelector((state: any) => state.authData);
+  const dispatch = useAppDispatch();
   const [updatedMembers, setUpdatedMembers] = useState(taskDetails?.members);
 
   const [taskProperties, setTaskProperties] = useState<TaskType>({
@@ -46,24 +46,34 @@ export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
     setTaskProperties((prev) => ({
       ...prev,
       members: updatedMembers,
+      status:
+        updatedMembers.length > 0
+          ? taskDetails?.status === "backlog"
+            ? "assigned"
+            : taskDetails?.status
+          : updatedMembers.length === 0 &&
+            (taskDetails?.status === "assigned" ||
+              taskDetails?.status === "in_progress")
+          ? "backlog"
+          : taskDetails?.status,
     }));
   }, [updatedMembers]);
   function saveChanges() {
-       const requestHeader = {
-         Authorization: `Bearer ${localStorage.getItem("token")}`,
-       };
+    const requestHeader = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    };
 
-       const requestBody = {
-         ...taskProperties,
-         members: updatedMembers,
-       };
-       console.log(requestBody);
+    const requestBody = {
+      ...taskProperties,
+      members: updatedMembers,
+    };
+    console.log(requestBody);
 
-       dispatch(updateTask(requestBody, { headers: requestHeader }));
+    dispatch(updateTask(requestBody, { headers: requestHeader }));
   }
-//   console.log(taskDetails);
+  //   console.log(taskDetails);
   console.log(taskDetails?.members, "updatedMembers");
-  
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>

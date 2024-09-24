@@ -8,7 +8,7 @@ interface AvatarProps {
 const CustomAvatar: React.FC<AvatarProps> = ({ src, alt, size = "40px" }) => {
   return (
     <div
-      className={`avatar rounded-full overflow-hidden flex items-center justify-center bg-gray-200 shadow-md`}
+      className={`avatar rounded-full overflow-hidden flex items-center justify-center bg-gray-200 shadow-md transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg cursor-pointer`}
       style={{
         width: size,
         height: size,
