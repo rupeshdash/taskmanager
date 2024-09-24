@@ -7,9 +7,12 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { fetchAllUsers } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import { Checkbox } from "../ui/checkbox";
+import CustomAvatar from "../designConstants/CustomAvatar";
+import { addImage } from "@/assets/Images";
+import { PlusCircle, PlusCircleIcon } from "lucide-react";
 
 interface AddMembersProps {
-  newMembers: { _id: string; email: string }[];
+  newMembers: { _id: string; email: string; avatar:string }[];
   setNewMembers: Function;
 }
 interface MemberType {
@@ -17,6 +20,7 @@ interface MemberType {
   name: string;
   email: string;
   organization: string;
+
 }
 
 const AddMembers: React.FC<AddMembersProps> = ({
@@ -71,26 +75,40 @@ console.log(newMembers);
 
   useEffect(() => {
     if(teamData?.allUsers){
+      console.log(teamData?.allUsers);
+      
         setMembers(teamData?.allUsers);
     }
   }, [teamData]);
 
   return (
     <div className="py-2 relative">
-      <h2 className="text-base font-medium mb-4">Select Members</h2>
       <div className="relative">
         <button
           className="hover:opacity-75"
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
-          <img src={Grouppic} alt="Group Members" className="rounded-md" />
+          {/* <img src={Grouppic} alt="Group Members" className="rounded-md" /> */}
+          <div className="flex flex-row p-2 bg-custom-grey items-center rounded-[20px]">
+            {newMembers.map((member: any) => (
+              <CustomAvatar src={member.avatar} alt={"avatar"} size="20px" />
+            ))}
+            {newMembers.length === 0 ? (
+              <>
+                <span className="ml-2 text-sm">Select members</span>
+                <span className="ml-2 font-bold">+</span>
+              </>
+            ) : (
+              <span className="ml-2 font-bold">+</span>
+            )}
+          </div>
         </button>
         {isDropdownOpen && (
           <div
             ref={dropdownRef}
             className="absolute top-full left-0 min-w-60 max-h-60 overflow-y-auto p-2 z-50 bg-white border border-gray-200 shadow-md rounded-md mt-2 no-scrollbar scroll-smooth"
           >
-            {members.map((member: any) => (
+            {members.map((member: any) => (  
               <div
                 key={member._id}
                 className={`flex items-center space-x-2 p-2 cursor-pointer rounded-md hover:bg-gray-100`}
@@ -103,7 +121,12 @@ console.log(newMembers);
                   onChange={() => toggleMember(member)}
                 />
                 {/* <AvatarComp src={member.avatar} fallback={member.name[0]} /> */}
-                <span className="text-sm">{member.name}</span>
+                <CustomAvatar src={member.avatar} alt={"avatar"} size="20px" />
+                <span className="text-sm">
+                  {member?._id === localStorage.getItem("userId")
+                    ? "You"
+                    : member.name}
+                </span>
               </div>
             ))}
           </div>

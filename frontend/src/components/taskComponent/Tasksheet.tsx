@@ -26,16 +26,16 @@ import { Textarea } from "../ui/textarea";
 
 interface PropType {
   source: string;
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar:string }[];
   teamId: string;
   status?: string;
 }
 export interface TaskType {
   _id?: number;
-  createdBy: { _id: string; email: string; name: string };
+  createdBy: { _id: string; email: string; name: string; avatar:string };
   title: string;
   description: string;
-  members: { _id: string; email: string; name: string }[];
+  members: { _id: string; email: string; name: string ; avatar:string }[];
   createdAt: string;
   deadline: string;
   priority: string;
@@ -60,7 +60,8 @@ export function Tasksheet({ source, teamMembers, teamId, status }: PropType) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
-
+    console.log(taskDetails?.status , updatedMembers.length);
+    
     const requestBody = {
       ...taskDetails,
       createdBy : taskDetails?._id ? taskDetails?._id : authData?.userId,
@@ -75,7 +76,7 @@ export function Tasksheet({ source, teamMembers, teamId, status }: PropType) {
     };
     setTaskDetails({
       title: "",
-      createdBy: { _id: "" ,email: "", name: "" },
+      createdBy: { _id: "" ,email: "", name: "",avatar: "" },
       description: "",
       members: [],
       createdAt: "",
