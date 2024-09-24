@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { UserTaskDetails } from "./UserTaskDetails";
 import { Badge } from "../ui/badge";
+import CustomAvatar from "../designConstants/CustomAvatar";
+import BagdeWithName from "../designConstants/BagdeWithName";
 
 interface PropType {
   key: number;
@@ -75,7 +77,12 @@ const UserTask = ({
               >
                 {taskDetails?.priority.toUpperCase()}
               </p>
-              <Badge variant={"outline"}>{taskDetails?.createdBy?.name}</Badge>{" "}
+
+              <BagdeWithName
+                _id={taskDetails?.createdBy?._id}
+                name={taskDetails?.createdBy?.name}
+                avatar={taskDetails?.createdBy?.avatar}
+              />
             </div>
             <div className=" space-y-1">
               <h2 className="text-base text-primary-blue font-medium mb">

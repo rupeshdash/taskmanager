@@ -1,18 +1,16 @@
 import { formatDate } from "../helper";
 import { TaskType } from "./Tasksheet";
-import Grouppic from "../../assets/GroupMembers.png";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { UpdateTaskDetails } from "./TaskType/UpdateTaskDetails";
-import { useState } from "react";
 import { UserTaskDetails } from "../userTaskComponents/UserTaskDetails";
-import { Badge } from "../ui/badge";
-import { editIcon } from "@/assets/Images";
+import BagdeWithName from "../designConstants/BagdeWithName";
+import { Edit } from "lucide-react";
 
 interface PropType {
   key: number;
   taskDetails: TaskType;
   isUserTeamAdmin?: boolean;
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
 }
 export const Task = ({
   key,
@@ -28,7 +26,7 @@ export const Task = ({
       <DialogTrigger asChild>
         <div
           key={key}
-          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
         >
           <div className="">
             <div className="flex justify-between items-center mb-3">
@@ -46,11 +44,13 @@ export const Task = ({
                 {taskDetails?.priority.toUpperCase()}
               </p>
               <div className="flex gap-1 items-center">
-                <Badge variant={"outline"}>
-                  {taskDetails?.createdBy?.name}
-                </Badge>{" "}
+                <BagdeWithName
+                  _id={taskDetails?.createdBy?._id}
+                  name={taskDetails?.createdBy?.name}
+                  avatar={taskDetails?.createdBy?.avatar}
+                />
                 {(isUserTaskAdmin || isUserTeamAdmin) && (
-                  <span className="h-6 top-2 cursor-pointer">{editIcon()}</span>
+                  <span className="h-6 top-2 cursor-pointer">{<Edit />}</span>
                 )}
               </div>
             </div>
@@ -79,7 +79,11 @@ export const Task = ({
           {taskDetails?.members?.length > 0 && (
             <div className="flex gap-2 flex-row">
               {taskDetails?.members?.map((member: any) => (
-                <Badge variant={"secondary"}>{member?.name}</Badge>
+                <BagdeWithName
+                  _id={member?._id}
+                  name={member?.name}
+                  avatar={member?.avatar}
+                />
               ))}
             </div>
           )}

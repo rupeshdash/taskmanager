@@ -4,7 +4,7 @@ interface PropType {
   status?: string;
   title: string;
   teamId: string;
-  teamMembers?: { _id: string; email: string; name: string }[];
+  teamMembers?: { _id: string; email: string; name: string; avatar:string}[];
   source?: string;
 }
 const Addtask = ({ status , title  , teamId , teamMembers , source} : PropType) => {

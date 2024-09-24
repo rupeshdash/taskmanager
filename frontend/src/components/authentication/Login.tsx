@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
-import FileUpload from "./FileUpload";
 
 const Login = () => {
   const dispatch:any = useDispatch();

@@ -12,6 +12,14 @@ import Loader from "../designConstants/Loader";
 import TaskContainer from "./TaskType/TaskContainer";
 import groupPic1 from "../../assets/image.png";
 import AvatarCircles from "../magicui/avatar-circles";
+import CustomAvatar from "../designConstants/CustomAvatar";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { HoverMemberInfo } from "../designConstants/HoverMemberInfo";
+import SearchTaskComponent from "./SearchAndSortTask/SearchTask/SearchTaskComponent";
 const TaskWrapper = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,20 +33,21 @@ const TaskWrapper = () => {
     status: string;
     prevStatus: string;
   }>({ taskId: "", status: "", prevStatus: "" });
+  const [unArrangedTasks, setUnArrangedTasks] = useState<any>([]);
   const [arrangedTasks, setArrangedTasks] = useState<any>({
     backlog: [],
     assigned: [],
     in_progress: [],
     review: [],
   });
-  const [teamMembersDetails , setTeamMembersDetails] = useState([]);
-  const [avatarUrls , setAvatarUrls] = useState([]);
+  const [teamMembersDetails, setTeamMembersDetails] = useState([]);
+  const [avatarUrls, setAvatarUrls] = useState([]);
   const statuses = [
     { label: "Backlog", value: "backlog" },
     { label: "Assigned", value: "assigned" },
     { label: "In Progress", value: "in_progress" },
     { label: "Review", value: "review" },
-  ]
+  ];
   useEffect(() => {
     if (!teamId) {
       navigate("/teams"); // Redirect to an error page or homepage
@@ -47,7 +56,6 @@ const TaskWrapper = () => {
     }
   }, []);
 
-
   useEffect(() => {
     if (teamData?.getTeamDetailsResponse?.teamDetails) {
       setIsUserTeamAdmin(
@@ -55,30 +63,39 @@ const TaskWrapper = () => {
           localStorage?.getItem("userId")
       );
     }
-
     if (teamData?.allTaskOfTeam) {
-      const taskByStatus: any = {
-        backlog: [],
-        assigned: [],
-        in_progress: [],
-        review: [],
-      };
-      teamData?.allTaskOfTeam?.forEach((task: any) => {
-       taskByStatus[task?.status] && taskByStatus[task?.status].push(task);
-      });
-      setArrangedTasks(taskByStatus);
+      setUnArrangedTasks(teamData?.allTaskOfTeam);
     }
-    if(teamData?.allTeamMembers){
+    if (teamData?.allTeamMembers) {
       let userDetails = teamData?.allTeamMembers?.map((user: any) => {
-        return { label: user?.name, value: user?.email };
-      })
+        return {
+          userName: user?.name,
+          userEmail: user?.email,
+          avatar: user?.avatar,
+        };
+      });
       let avatarUrls = teamData?.allTeamMembers?.map((user: any) => {
-        return user?.avatar
-      })
-      setAvatarUrls(avatarUrls)
-      setTeamMembersDetails(userDetails)
+        return user?.avatar;
+      });
+
+      setAvatarUrls(avatarUrls);
+      setTeamMembersDetails(userDetails);
     }
   }, [teamData]);
+  useEffect(() => {
+     if (unArrangedTasks) {
+       const taskByStatus: any = {
+         backlog: [],
+         assigned: [],
+         in_progress: [],
+         review: [],
+       };
+       unArrangedTasks?.forEach((task: any) => {
+         taskByStatus[task?.status] && taskByStatus[task?.status].push(task);
+       });
+       setArrangedTasks(taskByStatus);
+     }
+  }, [unArrangedTasks]);
   function getTeamDetails(teamId: any) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -101,13 +118,34 @@ const TaskWrapper = () => {
         <section className="team-section">
           <>
             <header className="section-header my-7 px-5 flex flex-row-reverse justify-between">
-              <Tasksheet
-                source={"createTask"}
-                teamMembers={teamData?.allTeamMembers}
-                teamId={teamId ? teamId : ""}
-              />
-              {/* <img className="w-64" src={groupPic1} /> */}
-              <AvatarCircles  avatarUrls={avatarUrls} />
+              <div className="flex flex-row-reverse gap-10 items-center">
+                <Tasksheet
+                  source={"createTask"}
+                  teamMembers={teamData?.allTeamMembers}
+                  teamId={teamId ? teamId : ""}
+                />
+                {/* <img className="w-64" src={groupPic1} /> */}
+                {/* <AvatarCircles  avatarUrls={avatarUrls} /> */}
+                <SearchTaskComponent
+                  allTaskData={teamData?.allTaskOfTeam}
+                  unArrangedTasks={unArrangedTasks}
+                  setUnArrangedTasks={setUnArrangedTasks}
+                />
+              </div>
+              <div className="flex flex-row">
+                {teamMembersDetails.map((member: any, index) => (
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <CustomAvatar
+                        src={member?.avatar}
+                        alt="Avatar"
+                        size="40px"
+                      />
+                    </HoverCardTrigger>
+                    <HoverMemberInfo teamMembersDetails={member} />
+                  </HoverCard>
+                ))}
+              </div>
             </header>
             <div className="task-wrapper">
               {statuses.map((status) => {
