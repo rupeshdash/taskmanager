@@ -30,8 +30,8 @@ export const NAVIGATION_OBJ = [
     icon: settingIcon,
     isVisible: true,
     isActive: false,
-    isDisable: true,
-    path: "/setting",
+    isDisable: false,
+    path: "/settings",
   },
   {
     id: "chats",

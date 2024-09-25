@@ -1,4 +1,4 @@
-import { ChevronLeft, Loader, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { formatDate } from "../helper";
 import { TaskType } from "../taskComponent/Tasksheet";
 import { Button } from "../ui/button";
@@ -6,8 +6,6 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { UserTaskDetails } from "./UserTaskDetails";
-import { Badge } from "../ui/badge";
-import CustomAvatar from "../designConstants/CustomAvatar";
 import BagdeWithName from "../designConstants/BagdeWithName";
 
 interface PropType {
@@ -50,7 +48,6 @@ const UserTask = ({
   key,
   taskDetails,
   currentStatus,
-  updatedStatus,
   setUpdatedStatus,
 }: PropType) => {
   const taskData = useSelector((state: any) => state.taskData);

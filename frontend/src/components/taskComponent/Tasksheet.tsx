@@ -60,8 +60,7 @@ export function Tasksheet({ source, teamMembers, teamId, status }: PropType) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
-    console.log(taskDetails?.status , updatedMembers.length);
-    
+
     const requestBody = {
       ...taskDetails,
       createdBy : taskDetails?._id ? taskDetails?._id : authData?.userId,
@@ -86,7 +85,7 @@ export function Tasksheet({ source, teamMembers, teamId, status }: PropType) {
     });
     console.log(requestBody);
 
-    dispatch(createTask(requestBody, { headers: requestHeader }, teamId));
+    dispatch(createTask(requestBody, { headers: requestHeader }));
   }
   return (
     <Sheet>

@@ -1,33 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import Grouppic from "../../assets/GroupMembers.png";
-import AvatarComp from "../taskComponent/AvatarComp";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { fetchAllUsers } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import { Checkbox } from "../ui/checkbox";
 import CustomAvatar from "../designConstants/CustomAvatar";
-import { addImage } from "@/assets/Images";
-import { PlusCircle, PlusCircleIcon } from "lucide-react";
 
 interface AddMembersProps {
   newMembers: { _id: string; email: string; avatar:string }[];
   setNewMembers: Function;
-}
-interface MemberType {
-  id: string;
-  name: string;
-  email: string;
-  organization: string;
-
 }
 
 const AddMembers: React.FC<AddMembersProps> = ({
   newMembers,
   setNewMembers,
 }) => {
-  const authData = useSelector((state: any) => state.authData);
   const teamData = useSelector((state: any) => state.teamData);
   const dispatch = useAppDispatch();
   const [isDropdownOpen, setDropdownOpen] = useState(false);

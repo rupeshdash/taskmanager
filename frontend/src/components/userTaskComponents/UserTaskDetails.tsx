@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/dialog";
 import { TaskType } from "../taskComponent/Tasksheet";
 import { formatDate } from "../helper";
-import { Badge } from "../ui/badge";
-import CustomAvatar from "../designConstants/CustomAvatar";
 import BagdeWithName from "../designConstants/BagdeWithName";
 interface PropType {
   taskDetails: TaskType;

@@ -26,7 +26,7 @@ export const Task = ({
       <DialogTrigger asChild>
         <div
           key={key}
-          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
         >
           <div className="">
             <div className="flex justify-between items-center mb-3">

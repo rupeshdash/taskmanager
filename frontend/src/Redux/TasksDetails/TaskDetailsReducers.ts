@@ -1,4 +1,3 @@
-import { updateTask } from "./TaskDetailsActions";
 import {
   CREATE_TASK_FAILURE,
   CREATE_TASK_REQUEST,

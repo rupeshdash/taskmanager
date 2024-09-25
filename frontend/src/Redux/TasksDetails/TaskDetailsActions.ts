@@ -21,7 +21,6 @@ import { fetchTeamDetails } from "../TeamsDetails/TeamDetailsActions";
 export const createTask = (
   requestBody: any,
   requestHeader: any,
-  teamId: any
 ) => {
   return (dispatch: AppDispatch) => {
     dispatch(createTaskRequest());
