@@ -43,7 +43,7 @@ const TeamComponent: React.FC<TeamProps> = ({ team }) => {
         team={team}
         isAdmin={team?.isAdmin}
       />
-      <div className="">
+      <div className="h-full">
         <div className="flex justify-between items-center mb-3 w-[93%]">
           {team?.isAdmin && (
             <Badge className="bg-admin-green text-green-600">Admin</Badge>
@@ -56,25 +56,27 @@ const TeamComponent: React.FC<TeamProps> = ({ team }) => {
             />
           </div>
         </div>
-        <div className=" space-y-1">
-          <h2 className="text-base text-primary-blue font-medium mb">
-            {team?.title}
-          </h2>
-          <p className="text-[#768396] text-sm">{team?.description}</p>
-        </div>
-      </div>
-      <div className="mt-12">
-        {team?.members?.length > 0 && (
+        <div className="flex h-[78%] flex-col justify-between space-y-5">
           <div>
-            {team?.members?.map((member: any) => (
-              <BagdeWithName
-                _id={member?._id}
-                name={member?.name}
-                avatar={member?.avatar}
-              />
-            ))}
+            <h2 className="text-base text-primary-blue font-medium mb">
+              {team?.title}
+            </h2>
+            <p className="text-[#768396] text-sm">{team?.description}</p>
           </div>
-        )}
+          <div>
+            {team?.members?.length > 0 && (
+              <div>
+                {team?.members?.map((member: any) => (
+                  <BagdeWithName
+                    _id={member?._id}
+                    name={member?.name}
+                    avatar={member?.avatar}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
