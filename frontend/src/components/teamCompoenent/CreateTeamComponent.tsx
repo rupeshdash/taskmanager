@@ -155,6 +155,7 @@ export function CreateTeamComponent({ source, team, isAdmin }: PropType) {
                 placeholder="design the ui for the profile"
                 className="col-span-3"
                 defaultValue={teamDetails?.description}
+                maxLength={150}
                 onChange={(e: any) => {
                   setTeamDetails((prev) => {
                     return {
