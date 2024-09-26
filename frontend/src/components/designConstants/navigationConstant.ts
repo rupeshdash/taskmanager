@@ -39,7 +39,7 @@ export const NAVIGATION_OBJ = [
     icon: chatsIcon,
     isVisible: true,
     isActive: false,
-    isDisable: true,
+    isDisable: false,
     path: "/chats",
   },
 ];
