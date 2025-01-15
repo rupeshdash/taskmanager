@@ -5,8 +5,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "noUnusedLocals": false, // Disables error for unused local variables
-    "noUnusedParameters": false, // Disables error for unused function parameters
     /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
@@ -17,8 +15,6 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
