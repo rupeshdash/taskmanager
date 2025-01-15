@@ -17,7 +17,7 @@ export const loginUser = (requestBody: any, requestHeader: any) => {
   return (dispatch: any) => {
     dispatch(loginUserRequest());
     axios
-      .post("http://localhost:8080/api/user/login", requestBody, requestHeader)
+      .post("https://taskmanager-vgl4.onrender.com/api/user/login", requestBody, requestHeader)
       .then((resp) => {
         if (resp.data.errors) {
           dispatch(loginUserFailure(resp.data));
@@ -60,7 +60,7 @@ export const signupUser = (requestBody: any, requestHeader: any) => {
   return (dispatch: any) => {
     dispatch(signupUserRequest());
     axios
-      .post("http://localhost:8080/api/user/signup", requestBody, requestHeader)
+      .post("https://taskmanager-vgl4.onrender.com/api/user/signup", requestBody, requestHeader)
       .then((resp) => {
         if (resp.data.errors) {
           dispatch(signupUserFailure(resp.data));
@@ -124,7 +124,7 @@ export const fetchUserDetails = (requestHeader: any) => {
   return (dispatch: AppDispatch) => {
     dispatch(fetchUserDetailsRequest());
     axios
-      .get("http://localhost:8080/api/user/getuserdetails", requestHeader)
+      .get("https://taskmanager-vgl4.onrender.com/api/user/getuserdetails", requestHeader)
       .then((resp) => {
         if (resp.data.errors) {
           dispatch(fetchUserDetailsFailure(resp.data.errors));

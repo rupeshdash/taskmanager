@@ -25,7 +25,7 @@ export const createTeam = (
     dispatch(createTeamRequest());
     axios
       .post(
-        "http://localhost:8080/api/v1/team/createteam",
+        "https://taskmanager-vgl4.onrender.com/api/v1/team/createteam",
         requestBody,
         requestHeader
       )
@@ -72,7 +72,7 @@ export const getAllTeams = (requestBody: any, requestHeader: any) => {
     dispatch(getAllTeamsRequest());
     axios
       .post(
-        "http://localhost:8080/api/v1/team/getallteams",
+        "https://taskmanager-vgl4.onrender.com/api/v1/team/getallteams",
         requestBody,
         requestHeader
       )
@@ -108,7 +108,7 @@ export const fetchAllUsers = (requestBody: any, requestHeader: any) => {
     dispatch(getAllUsersRequest());
     axios
       .post(
-        "http://localhost:8080/api/v1/team/getallusers",
+        "https://taskmanager-vgl4.onrender.com/api/v1/team/getallusers",
         requestBody,
         requestHeader
       )
@@ -144,7 +144,7 @@ export const fetchTeamDetails = (requestHeader:any ,teamId: string) => {
      dispatch(getTeamDetailsRequest());
      axios
        .get(
-         "http://localhost:8080/api/v1/team/getteamdetails",
+         "https://taskmanager-vgl4.onrender.com/api/v1/team/getteamdetails",
 
         {
           headers: requestHeader,
