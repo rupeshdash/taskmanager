@@ -1,4 +1,3 @@
-import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "../ui/toaster";
 
 export default function RootLayout({ children } : any) {

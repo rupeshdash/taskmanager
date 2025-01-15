@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TaskType } from "../../Tasksheet";
-import { CrossIcon, XIcon } from "lucide-react";
-import { set } from "date-fns";
+import {  XIcon } from "lucide-react";
+
 
 const statuses = [
   { label: "Backlog", value: "backlog" },
@@ -99,7 +99,7 @@ const SearchTaskComponent = ({
               className="text-sm text-gray-700 dark:text-gray-200"
               aria-labelledby="dropdown-button"
             >
-              {statuses?.map((status, index) => (
+              {statuses?.map((status) => (
                 <li>
                   <button
                     type="button"

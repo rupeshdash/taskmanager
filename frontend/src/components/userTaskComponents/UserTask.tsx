@@ -1,4 +1,4 @@
-import { ChevronLeft, Loader, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { formatDate } from "../helper";
 import { TaskType } from "../taskComponent/Tasksheet";
 import { Button } from "../ui/button";
@@ -6,8 +6,6 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { UserTaskDetails } from "./UserTaskDetails";
-import { Badge } from "../ui/badge";
-import CustomAvatar from "../designConstants/CustomAvatar";
 import BagdeWithName from "../designConstants/BagdeWithName";
 
 interface PropType {
@@ -50,7 +48,6 @@ const UserTask = ({
   key,
   taskDetails,
   currentStatus,
-  updatedStatus,
   setUpdatedStatus,
 }: PropType) => {
   const taskData = useSelector((state: any) => state.taskData);
@@ -60,7 +57,7 @@ const UserTask = ({
       <DialogTrigger asChild>
         <div
           key={key}
-          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
         >
           <div className="">
             <div className="flex justify-between items-center mb-3">

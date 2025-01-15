@@ -6,7 +6,7 @@ import { useState } from "react";
 import BlurFade from "../magicui/blur-fade";
 
 export const HeroPage = () => {
-  const [color, setColor] = useState("#5051F9");
+  const [color] = useState("#5051F9");
   return (
     <div className="relative h-screen w-full">
       <Navbar />

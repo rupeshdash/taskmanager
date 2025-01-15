@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -14,14 +13,11 @@ import {
 import Priority from "./Priority";
 import { DatePicker } from "./DatePicker";
 import MemberSelector from "./MemberSelector";
-import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getTodayDate } from "../teamCompoenent/teamsHelper";
-import { title } from "process";
 import { createTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useAppDispatch } from "@/Redux/store";
-import { StatusSelector } from "./StatusSelector";
 import { Textarea } from "../ui/textarea";
 
 interface PropType {
@@ -41,7 +37,7 @@ export interface TaskType {
   priority: string;
   status: string;
 }
-export function Tasksheet({ source, teamMembers, teamId, status }: PropType) {
+export function Tasksheet({ source, teamMembers, teamId }: PropType) {
   const authData = useSelector((state: any) => state.authData);
   const defaultStatus = "backlog";
   const dispatch = useAppDispatch();

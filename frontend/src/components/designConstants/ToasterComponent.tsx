@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast";
 export const ToasterComponent = () => {
 const { toast } = useToast();

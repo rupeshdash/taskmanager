@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +15,6 @@ import MemberSelector from "../MemberSelector";
 import { DatePicker } from "../DatePicker";
 import { StatusSelector } from "../StatusSelector";
 import { Textarea } from "@/components/ui/textarea";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { updateTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 
@@ -26,7 +23,6 @@ interface PropType {
   teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
 }
 export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
-  const authData = useSelector((state: any) => state.authData);
   const dispatch = useAppDispatch();
   const [updatedMembers, setUpdatedMembers] = useState(taskDetails?.members);
 

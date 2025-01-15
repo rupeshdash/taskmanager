@@ -4,7 +4,6 @@ import { Task } from "../Task";
 import { TaskType } from "../Tasksheet";
 import { useSelector } from "react-redux";
 import { SkeletonLoading } from "@/components/designConstants/SkeletonLoading";
-import SortTask from "../SearchAndSortTask/SortTask/SortTask";
 
 interface PropType {
   status: string;

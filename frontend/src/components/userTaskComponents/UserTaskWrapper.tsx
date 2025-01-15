@@ -8,8 +8,6 @@ import {
 } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useSelector } from "react-redux";
 import TaskContainer from "../taskComponent/TaskType/TaskContainer";
-import Loader from "../designConstants/Loader";
-import { SkeletonLoading } from "../designConstants/SkeletonLoading";
 
 const UserTaskWrapper = () => {
   const dispatch = useAppDispatch();

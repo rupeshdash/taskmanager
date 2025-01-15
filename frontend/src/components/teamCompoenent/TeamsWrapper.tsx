@@ -1,7 +1,6 @@
-import { addImage } from "@/assets/Images";
 import { useAppDispatch } from "@/Redux/store";
 import { getAllTeams } from "@/Redux/TeamsDetails/TeamDetailsActions";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Header from "../designConstants/Header";
 import Loader from "../designConstants/Loader";

@@ -1,6 +1,4 @@
-import { addImage } from "@/assets/Images";
 import { useAppDispatch } from "@/Redux/store";
-import { getAllTasks } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,14 +6,10 @@ import Header from "../designConstants/Header";
 import Navigation from "../designConstants/Navigation";
 import { Tasksheet } from "./Tasksheet";
 import { fetchTeamDetails } from "@/Redux/TeamsDetails/TeamDetailsActions";
-import Loader from "../designConstants/Loader";
 import TaskContainer from "./TaskType/TaskContainer";
-import groupPic1 from "../../assets/image.png";
-import AvatarCircles from "../magicui/avatar-circles";
 import CustomAvatar from "../designConstants/CustomAvatar";
 import {
   HoverCard,
-  HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { HoverMemberInfo } from "../designConstants/HoverMemberInfo";
@@ -48,6 +42,8 @@ const TaskWrapper = () => {
     { label: "In Progress", value: "in_progress" },
     { label: "Review", value: "review" },
   ];
+  console.log(avatarUrls);
+  
   useEffect(() => {
     if (!teamId) {
       navigate("/teams"); // Redirect to an error page or homepage
@@ -133,7 +129,7 @@ const TaskWrapper = () => {
                 />
               </div>
               <div className="flex flex-row">
-                {teamMembersDetails.map((member: any, index) => (
+                {teamMembersDetails.map((member: any) => (
                   <HoverCard>
                     <HoverCardTrigger>
                       <CustomAvatar

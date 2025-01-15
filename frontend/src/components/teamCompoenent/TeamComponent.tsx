@@ -1,11 +1,6 @@
-import { editIcon } from "@/assets/Images";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SheetTrigger } from "../ui/sheet";
 import { CreateTeamComponent } from "./CreateTeamComponent";
-import Grouppic from "../../assets/GroupMembers.png";
 import { Badge } from "../ui/badge";
-import CustomAvatar from "../designConstants/CustomAvatar";
 import BagdeWithName from "../designConstants/BagdeWithName";
 
 export interface TeamProps {
@@ -31,11 +26,10 @@ export interface TeamProps {
 }
 const TeamComponent: React.FC<TeamProps> = ({ team }) => {
   const navigate = useNavigate();
-  const [openUpdateTeam, setOpenUpdateTeam] = useState(false);
 
   return (
     <div
-      className="mx-auto relative w-full bg-white rounded-lg overflow-hidden p-4  transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+      className="mx-auto relative w-full bg-white rounded-lg overflow-hidden p-4  transition-transform  duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
       onClick={() => navigate("/team?teamid=" + team?._id)}
     >
       <CreateTeamComponent

@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import AvatarComp from "./AvatarComp";
 import { Checkbox } from "@/components/ui/checkbox";
-import Grouppic from "../../assets/GroupMembers.png";
 import CustomAvatar from "../designConstants/CustomAvatar";
 
 interface PropType {

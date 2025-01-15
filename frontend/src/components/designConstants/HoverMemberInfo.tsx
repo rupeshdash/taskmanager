@@ -1,13 +1,8 @@
 import {
-  HoverCard,
   HoverCardContent,
-  HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import CustomAvatar from "./CustomAvatar";
 
-interface HoverMemberInfoProps {
-  teamMembersDetails : any
-}
 export function HoverMemberInfo({ teamMembersDetails } : any) {
     console.log(teamMembersDetails);
     
