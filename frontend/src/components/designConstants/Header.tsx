@@ -1,15 +1,11 @@
-import { downArrow, Images, notificationBell } from "../../assets/Images";
+import { notificationBell } from "../../assets/Images";
 import ActionMenu from "../authentication/ActionMenu";
 import "./designconstant.css";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSelector } from "react-redux";
 import CustomAvatar from "./CustomAvatar";
 const Header = () => {

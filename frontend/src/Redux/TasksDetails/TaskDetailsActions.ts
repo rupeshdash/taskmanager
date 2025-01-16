@@ -22,11 +22,13 @@ export const createTask = (
   requestBody: any,
   requestHeader: any,
 ) => {
+  console.log(teamId);
+  
   return (dispatch: AppDispatch) => {
     dispatch(createTaskRequest());
     axios
       .post(
-        "http://localhost:8080/api/v1/task/createtask",
+        "https://taskmanager-vgl4.onrender.com/api/v1/task/createtask",
         requestBody,
         requestHeader
       )
@@ -72,7 +74,7 @@ export const getAllTasks = (requestHeader: any) => {
   return (dispatch: AppDispatch) => {
     dispatch(getAllTasksRequest());
     axios
-      .get("http://localhost:8080/api/v1/task/getalltasks", requestHeader)
+      .get("https://taskmanager-vgl4.onrender.com/api/v1/task/getalltasks", requestHeader)
       .then((resp) => {
         if (resp.data.errors) {
           dispatch(getAllTasksFailure(resp.data.errors));
@@ -111,7 +113,7 @@ export const updateTask = (requestBody: any, requestHeader: any) => {
     dispatch(updateTaskRequest());
     axios
       .post(
-        `http://localhost:8080/api/v1/task/updatetask`,
+        `https://taskmanager-vgl4.onrender.com/api/v1/task/updatetask`,
         requestBody,
         requestHeader
       )
@@ -162,7 +164,7 @@ export const updateTaskStatus = (requestBody: any, requestHeader: any, userId:an
     dispatch(updateTaskStatusRequest());
     axios
       .post(
-        `http://localhost:8080/api/v1/task/updatetaskstatus`,
+        `https://taskmanager-vgl4.onrender.com/api/v1/task/updatetaskstatus`,
         requestBody,
         requestHeader
       )

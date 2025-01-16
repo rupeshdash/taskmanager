@@ -25,7 +25,7 @@ interface PropType {
   deadline: string;
   setTaskDetails: Function;
 }
-export function DatePicker({deadline, setTaskDetails } : PropType) {
+export function DatePicker({setTaskDetails } : PropType) {
   const [date, setDate] = React.useState<Date>();
 React.useEffect(() => {
   if (date) {

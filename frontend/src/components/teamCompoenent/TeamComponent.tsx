@@ -29,7 +29,7 @@ const TeamComponent: React.FC<TeamProps> = ({ team }) => {
 
   return (
     <div
-      className="mx-auto relative w-full bg-white rounded-lg overflow-hidden p-4 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+      className="mx-auto relative w-full bg-white rounded-lg overflow-hidden p-4  transition-transform  duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
       onClick={() => navigate("/team?teamid=" + team?._id)}
     >
       <CreateTeamComponent

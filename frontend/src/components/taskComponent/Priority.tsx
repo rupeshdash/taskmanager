@@ -6,13 +6,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 interface PropType {
   setTaskDetails: Function;
   priority: string
 }
 const Priority = ({priority, setTaskDetails } : PropType) => {
-  const [updatedPriority, setUpdatedPriority] = useState<string | null>(null);
   useEffect(()=>{
     if(priority){
       setTaskDetails((prev:any)=>{
