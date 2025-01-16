@@ -8,6 +8,7 @@ import {
 } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useSelector } from "react-redux";
 import TaskContainer from "../taskComponent/TaskType/TaskContainer";
+import SearchTaskComponent from "../taskComponent/SearchAndSortTask/SearchTask/SearchTaskComponent";
 
 const UserTaskWrapper = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ const UserTaskWrapper = () => {
     prevStatus: string;
   }>({ taskId: "", status: "", prevStatus: "" });
   //   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [unArrangedTasks, setUnArrangedTasks] = useState<any>([]);
   const [arrangedTasks, setArrangedTasks] = useState<any>({
     backlog: [],
     assigned: [],
@@ -86,20 +88,30 @@ const UserTaskWrapper = () => {
   //   }, [taskData?.updateTaskStatusResponse]);
   useEffect(() => {
     if (taskData?.allTasks) {
-      const taskByStatus: any = {
-        backlog: [],
-        assigned: [],
-        in_progress: [],
-        review: [],
-      };
-      taskData?.allTasks?.forEach((task: any) => {
-        taskByStatus[task?.status] && task?.status
-          ? taskByStatus[task?.status].push(task)
-          : null;
-      });
-      setArrangedTasks(taskByStatus);
+      setUnArrangedTasks(taskData?.allTasks);
     }
   }, [taskData]);
+
+  useEffect(()=>{
+    console.log(unArrangedTasks);
+    
+    if(unArrangedTasks){
+        const taskByStatus: any = {
+          backlog: [],
+          assigned: [],
+          in_progress: [],
+          review: [],
+        };
+        unArrangedTasks?.forEach((task: any) => {
+          taskByStatus[task?.status] && task?.status
+            ? taskByStatus[task?.status].push(task)
+            : null;
+        });
+        setArrangedTasks(taskByStatus);
+    }
+    console.log(arrangedTasks);
+    
+  },[unArrangedTasks])
   return (
     <div className="page-wrapper">
       <Navigation />
@@ -110,6 +122,11 @@ const UserTaskWrapper = () => {
           <>
             <header className="section-header my-7 px-5 flex justify-between">
               🔥 Your Tasks
+              <SearchTaskComponent
+                allTaskData={taskData?.allTasks}
+                unArrangedTasks={unArrangedTasks}
+                setUnArrangedTasks={setUnArrangedTasks}
+              />
             </header>
 
             <div className="task-wrapper">

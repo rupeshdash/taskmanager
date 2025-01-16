@@ -19,19 +19,20 @@ import { getTodayDate } from "../teamCompoenent/teamsHelper";
 import { createTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useAppDispatch } from "@/Redux/store";
 import { Textarea } from "../ui/textarea";
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   source: string;
-  teamMembers?: { _id: string; email: string; name: string; avatar:string }[];
+  teamMembers?: MemberType[];
   teamId: string;
   status?: string;
 }
 export interface TaskType {
   _id?: number;
-  createdBy: { _id: string; email: string; name: string; avatar:string };
+  createdBy: MemberType;
   title: string;
   description: string;
-  members: { _id: string; email: string; name: string ; avatar:string }[];
+  members: MemberType[];
   createdAt: string;
   deadline: string;
   priority: string;
@@ -56,8 +57,7 @@ export function Tasksheet({ source, teamMembers, teamId }: PropType) {
     const requestHeader = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
-    console.log(taskDetails?.status , updatedMembers.length);
-    
+
     const requestBody = {
       ...taskDetails,
       createdBy : taskDetails?._id ? taskDetails?._id : authData?.userId,
@@ -82,7 +82,7 @@ export function Tasksheet({ source, teamMembers, teamId }: PropType) {
     });
     console.log(requestBody);
 
-    dispatch(createTask(requestBody, { headers: requestHeader }, teamId));
+    dispatch(createTask(requestBody, { headers: requestHeader }));
   }
   return (
     <Sheet>

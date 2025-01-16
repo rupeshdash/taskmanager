@@ -1,10 +1,11 @@
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 import { Tasksheet } from "./Tasksheet";
 
 interface PropType {
   status?: string;
   title: string;
   teamId: string;
-  teamMembers?: { _id: string; email: string; name: string; avatar:string}[];
+  teamMembers?: MemberType[];
   source?: string;
 }
 const Addtask = ({ status , title  , teamId , teamMembers , source} : PropType) => {

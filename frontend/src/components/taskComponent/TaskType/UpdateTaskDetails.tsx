@@ -17,10 +17,11 @@ import { StatusSelector } from "../StatusSelector";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppDispatch } from "@/Redux/store";
 import { updateTask } from "@/Redux/TasksDetails/TaskDetailsActions";
+import { MemberType } from "@/components/teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   taskDetails: TaskType;
-  teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
+  teamMembers?: MemberType[];
 }
 export function UpdateTaskDetails({ taskDetails, teamMembers }: PropType) {
   const dispatch = useAppDispatch();

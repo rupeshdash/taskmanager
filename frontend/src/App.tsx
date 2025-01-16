@@ -10,6 +10,8 @@ import store from "./Redux/store";
 import ProtectedRoute from "./components/authentication/ProtectedRoute";
 import PublicRoute from "./components/authentication/PublicRoute";
 import UserTaskWrapper from "./components/userTaskComponents/UserTaskWrapper";
+import SettingWrapper from "./components/SettingComponents/SettingWrapper";
+import ChatWrapper from "./components/ChatComponents/ChatWrapper";
 const App = () => {
   return (
     <Provider store={store}>
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="teams" element={<TeamsWrapper />} />
             <Route path="team" element={<TaskWrapper />} />
             <Route path="/tasks" element={<UserTaskWrapper />} />
+            <Route path="/settings" element={<SettingWrapper />} />
+            <Route path="/chats" element={<ChatWrapper/>}/>
           </Route>
         </Routes>
       </Router>

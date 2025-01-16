@@ -5,12 +5,13 @@ import { UpdateTaskDetails } from "./TaskType/UpdateTaskDetails";
 import { UserTaskDetails } from "../userTaskComponents/UserTaskDetails";
 import BagdeWithName from "../designConstants/BagdeWithName";
 import { Edit } from "lucide-react";
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   key: number;
   taskDetails: TaskType;
   isUserTeamAdmin?: boolean;
-  teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
+  teamMembers?: MemberType[];
 }
 export const Task = ({
   key,
@@ -26,7 +27,7 @@ export const Task = ({
       <DialogTrigger asChild>
         <div
           key={key}
-          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
+          className="mx-auto bg-white rounded-lg overflow-hidden p-4 space-y-5 transition-transform transition-colors duration-500 ease-in-out hover:scale-105  hover:shadow-lg hover:cursor-pointer"
         >
           <div className="">
             <div className="flex justify-between items-center mb-3">

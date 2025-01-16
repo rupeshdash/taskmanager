@@ -24,6 +24,8 @@ const SearchTaskComponent = ({
   const [statusFilter, setStatusFilter] = useState({ label: "", value: "" });
   const [searchText, setSearchText] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  console.log(unArrangedTasks);
+  
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -45,17 +47,27 @@ const SearchTaskComponent = ({
   const handleSearchSubmit = (event: any) => {
     event.preventDefault();
     console.log(searchText);
+    console.log(unArrangedTasks);
+    
     let modifiedUnArrangedTasks = unArrangedTasks.filter((task: any) => {
+        console.log(task.title.toLowerCase());
+        
+      console.log(task.title.toLowerCase().includes(searchText.toLowerCase()));
+      console.log(task.status === statusFilter.value);
       return statusFilter.value
         ? task.title.toLowerCase().includes(searchText.toLowerCase()) &&
             task.status === statusFilter.value
         : task.title.toLowerCase().includes(searchText.toLowerCase());
     });
+    
     setUnArrangedTasks(modifiedUnArrangedTasks);
     // console.log(modifiedUnArrangedTasks);
   };
   return (
-    <form className="w-[32rem] relative" onSubmit={handleSearchSubmit}>
+    <form
+      className="w-[32rem] relative"
+      onSubmit={(e) => handleSearchSubmit(e)}
+    >
       <div className="flex">
         <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
           Your Email
@@ -155,7 +167,7 @@ const SearchTaskComponent = ({
           )}
 
           <button
-            type="submit"
+            onClick={(e) => handleSearchSubmit(e)}
             className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-primary-purple border-primary-purple border-1 btn-primary bg-primary-purple-2"
           >
             <svg
@@ -173,7 +185,6 @@ const SearchTaskComponent = ({
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span className="sr-only">Search</span>
           </button>
         </div>
       </div>
