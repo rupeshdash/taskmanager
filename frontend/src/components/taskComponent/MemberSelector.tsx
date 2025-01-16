@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import CustomAvatar from "../designConstants/CustomAvatar";
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 
 interface PropType {
-  teamMembers?: { _id: string; email: string; name: string; avatar:string}[];
+  teamMembers?: MemberType[];
   setUpdatedMembers: Function;
-  updatedMembers?: { _id: string; email: string; name: string; avatar:string }[];
+  updatedMembers?: MemberType[];
 }
 
 const MemberSelector = ({

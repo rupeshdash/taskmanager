@@ -4,9 +4,10 @@ import { useAppDispatch } from "@/Redux/store";
 import { fetchAllUsers } from "@/Redux/TeamsDetails/TeamDetailsActions";
 import { Checkbox } from "../ui/checkbox";
 import CustomAvatar from "../designConstants/CustomAvatar";
+import { MemberType } from "./CreateTeamComponent";
 
 interface AddMembersProps {
-  newMembers: { _id: string; email: string; avatar:string }[];
+  newMembers: MemberType[];
   setNewMembers: Function;
 }
 

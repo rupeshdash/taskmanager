@@ -5,6 +5,7 @@ import { userRouter } from './Routes/userRoutes';
 import { taskRouter } from './Routes/taskRoute';
 import { teamRouter } from './Routes/teamRoute';
 import authMiddleware from './Middlewares/Authtentication';
+import { messageRouter } from './Routes/messageRoutes';
 const cors = require("cors");
 
 export const app = express();
@@ -17,6 +18,7 @@ app.use(cors()); // Enable CORS for all routes
 app.use("/api/user",userRouter)
 app.use("/api/v1/task",taskRouter)
 app.use("/api/v1/team",teamRouter)
+app.use("/api/v1/chat", messageRouter);
 
 
 

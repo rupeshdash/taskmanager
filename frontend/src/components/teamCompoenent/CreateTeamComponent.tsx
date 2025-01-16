@@ -22,6 +22,12 @@ import { Textarea } from "../ui/textarea";
 import AddMembers from "./AddMembers";
 import { getTodayDate } from "./teamsHelper";
 
+export interface MemberType {
+  _id: string;
+  email: string;
+  name: string;
+  avatar: string;
+}
 interface TeamProps {
   _id: string;
   title: string;
@@ -30,7 +36,7 @@ interface TeamProps {
     email: string;
   };
   isAdmin: boolean;
-  members: { _id: string; email: string; avatar: string }[];
+  members: MemberType[];
 }
 interface PropType {
   source: string;
@@ -41,13 +47,14 @@ export function CreateTeamComponent({ source, team, isAdmin }: PropType) {
   const authData = useSelector((state: any) => state.authData);
   const dispatch = useAppDispatch();
   const [newMembers, setNewMembers] = useState<
-    { _id: string; email: string; avatar: string }[]
+    { _id: string; email: string; avatar: string; name: string; }[]
   >(
     team?.members || [
       {
         _id: authData?.userId,
         email: authData?.userEmail,
         avatar: authData?.avatar,
+        name: authData?.userName,
       },
     ]
   );

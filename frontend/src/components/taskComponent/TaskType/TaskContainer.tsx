@@ -4,13 +4,14 @@ import { Task } from "../Task";
 import { TaskType } from "../Tasksheet";
 import { useSelector } from "react-redux";
 import { SkeletonLoading } from "@/components/designConstants/SkeletonLoading";
+import { MemberType } from "@/components/teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   status: string;
   tasks: Array<TaskType>;
   title: string;
   teamId?: string;
-  teamMembers?: { _id: string; email: string; name: string; avatar:string }[];
+  teamMembers?: MemberType[];
   isUserTeamAdmin?: boolean;
   source?: string;
   updatedStatus?: {

@@ -5,12 +5,13 @@ import { UpdateTaskDetails } from "./TaskType/UpdateTaskDetails";
 import { UserTaskDetails } from "../userTaskComponents/UserTaskDetails";
 import BagdeWithName from "../designConstants/BagdeWithName";
 import { Edit } from "lucide-react";
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   key: number;
   taskDetails: TaskType;
   isUserTeamAdmin?: boolean;
-  teamMembers?: { _id: string; email: string; name: string; avatar: string }[];
+  teamMembers?: MemberType[];
 }
 export const Task = ({
   key,

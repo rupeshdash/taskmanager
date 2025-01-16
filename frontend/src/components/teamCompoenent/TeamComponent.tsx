@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CreateTeamComponent } from "./CreateTeamComponent";
+import { CreateTeamComponent, MemberType } from "./CreateTeamComponent";
 import { Badge } from "../ui/badge";
 import BagdeWithName from "../designConstants/BagdeWithName";
 
@@ -15,13 +15,7 @@ export interface TeamProps {
       avatar: string;
     };
     isAdmin: boolean;
-    members: [
-      {
-        _id: string;
-        email: string;
-        avatar: string;
-      }
-    ];
+    members: MemberType[];
   };
 }
 const TeamComponent: React.FC<TeamProps> = ({ team }) => {

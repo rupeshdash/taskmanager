@@ -19,19 +19,20 @@ import { getTodayDate } from "../teamCompoenent/teamsHelper";
 import { createTask } from "@/Redux/TasksDetails/TaskDetailsActions";
 import { useAppDispatch } from "@/Redux/store";
 import { Textarea } from "../ui/textarea";
+import { MemberType } from "../teamCompoenent/CreateTeamComponent";
 
 interface PropType {
   source: string;
-  teamMembers?: { _id: string; email: string; name: string; avatar:string }[];
+  teamMembers?: MemberType[];
   teamId: string;
   status?: string;
 }
 export interface TaskType {
   _id?: number;
-  createdBy: { _id: string; email: string; name: string; avatar:string };
+  createdBy: MemberType;
   title: string;
   description: string;
-  members: { _id: string; email: string; name: string ; avatar:string }[];
+  members: MemberType[];
   createdAt: string;
   deadline: string;
   priority: string;
